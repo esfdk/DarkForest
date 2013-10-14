@@ -308,14 +308,13 @@ private function UpdateFunction () {
 	}
 	
 	var light : Light = GameObject.Find("MainLight").light;
-	var pPos : Vector3 = tr.position;
+	var pPos : Vector3 = GameObject.Find("Player").transform.position;
 	var xDist : float = pPos.x - 750;
-	var yDist : float = pPos.y;
 	var zDist : float = pPos.z - 750;
 	
-	var tDist : float = Mathf.Sqrt(Mathf.Pow(xDist, 2) + Mathf.Pow(yDist, 2) + Mathf.Pow(zDist, 2));
+	var tDist : float = Mathf.Sqrt(Mathf.Pow(xDist, 2) + 0 + Mathf.Pow(zDist, 2));
 	
-	light.intensity = tDist / 500;
+	light.intensity = tDist / 1000;
 	Screen.showCursor = false; 
 }
 
