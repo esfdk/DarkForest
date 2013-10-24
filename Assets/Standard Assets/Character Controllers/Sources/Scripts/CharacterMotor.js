@@ -19,6 +19,24 @@ var inputMoveDirection : Vector3 = Vector3.zero;
 @System.NonSerialized
 var inputJump : boolean = false;
 
+// Skybox colors
+private var SkyboxBlue : Color32 = Color32 (120, 120, 140, 255);
+private var SkyboxRed : Color32 = Color32 (150, 130, 130, 255);
+private var SkyboxOrange : Color32 = Color32 (255, 127, 80, 255);
+private var SkyboxGreen : Color32 = Color32 (130, 150, 130, 255);
+private var SkyboxPurple : Color32 = Color32 (170, 0, 170, 255);
+
+// Fog colors
+private var FogBlue : Color32 = Color32 (80, 80, 140, 255);
+private var FogRed : Color32 = Color32 (140, 80, 80, 255);
+private var FogYellow : Color32 = Color32 (125, 125, 0, 255);
+private var FogGreen : Color32 = Color32 (130, 150, 130, 255);
+private var FogPurple : Color32 = Color32 (170, 0, 170, 255);
+
+
+// Fix the name yourself! :D
+private var ChangeSpeed : float = 0.01;
+
 class CharacterMotorMovement {
 	// The maximum horizontal speed when moving
 	var maxForwardSpeed : float = 10.0;
@@ -178,6 +196,8 @@ private var controller : CharacterController;
 function Awake () {
 	controller = GetComponent (CharacterController);
 	tr = transform;
+	
+	Screen.showCursor = false;
 }
 
 private function UpdateFunction () {
@@ -307,15 +327,32 @@ private function UpdateFunction () {
         movingPlatform.activeLocalRotation = Quaternion.Inverse(movingPlatform.activePlatform.rotation) * movingPlatform.activeGlobalRotation; 
 	}
 	
-	var light : Light = GameObject.Find("MainLight").light;
 	var pPos : Vector3 = GameObject.Find("Player").transform.position;
-	var xDist : float = pPos.x - 750;
-	var zDist : float = pPos.z - 750;
-	
+	var xDist : float = pPos.x - 625;
+	var zDist : float = pPos.z - 625;
 	var tDist : float = Mathf.Sqrt(Mathf.Pow(xDist, 2) + 0 + Mathf.Pow(zDist, 2));
 	
-	light.intensity = tDist / 1000;
-	Screen.showCursor = false; 
+	if (tDist < 10) 		{ ChangeLight(0.1, Color.blue, SkyboxBlue, FogBlue); }
+	else if (tDist < 20) 	{ ChangeLight(0.2, Color.red, SkyboxRed, FogRed); }
+	else if (tDist < 1250) 	{ ChangeLight(0.3, Color.yellow, SkyboxOrange, FogYellow); }
+}
+
+private function ChangeLight(targetLight : float)
+{
+	ChangeLight(targetLight, Color.white, Color.white, Color.white);
+}
+
+private function ChangeLight(targetLight : float, newColor : Color, skyboxColor : Color, fogColor : Color)
+{
+	var light : Light = GameObject.Find("MainLight").light;
+	var tempColor : Color = Color.Lerp (light.color, newColor, ChangeSpeed * 2);
+	
+	if (light.intensity > targetLight) { light.intensity -= ChangeSpeed; }
+	if (light.intensity < targetLight) { light.intensity += ChangeSpeed; }
+	
+	light.color = tempColor;
+	RenderSettings.fogColor = Color.Lerp(RenderSettings.fogColor, fogColor, ChangeSpeed * 2);
+	RenderSettings.skybox.SetColor("_Tint", Color.Lerp(RenderSettings.skybox.GetColor("_Tint"), skyboxColor, ChangeSpeed * 2));
 }
 
 function FixedUpdate () {
