@@ -22,7 +22,7 @@ var inputJump : boolean = false;
 // Skybox colors
 private var SkyboxBlue : Color32 = Color32 (120, 120, 140, 255);
 private var SkyboxRed : Color32 = Color32 (150, 130, 130, 255);
-private var SkyboxOrange : Color32 = Color32 (255, 127, 80, 255);
+private var SkyboxYellow : Color32 = Color32 (140, 140, 0, 255);
 private var SkyboxGreen : Color32 = Color32 (130, 150, 130, 255);
 private var SkyboxPurple : Color32 = Color32 (170, 0, 170, 255);
 
@@ -196,7 +196,10 @@ private var controller : CharacterController;
 function Awake () {
 	controller = GetComponent (CharacterController);
 	tr = transform;
-	
+	var wispLight : Light = GameObject.Find("WispLight").light;
+	var mainLight : Light = GameObject.Find("MainLight").light;
+	wispLight.color = Color.blue;
+	mainLight.color = Color.blue;
 	Screen.showCursor = false;
 }
 
@@ -332,9 +335,11 @@ private function UpdateFunction () {
 	var zDist : float = pPos.z - 625;
 	var tDist : float = Mathf.Sqrt(Mathf.Pow(xDist, 2) + 0 + Mathf.Pow(zDist, 2));
 	
-	if (tDist < 10) 		{ ChangeLight(0.1, Color.blue, SkyboxBlue, FogBlue); }
-	else if (tDist < 20) 	{ ChangeLight(0.2, Color.red, SkyboxRed, FogRed); }
-	else if (tDist < 1250) 	{ ChangeLight(0.3, Color.yellow, SkyboxOrange, FogYellow); }
+	if (tDist < 15) 		{ ChangeLight(0.1, Color.blue, SkyboxBlue, FogBlue); }
+	else if (tDist < 125) 	{ ChangeLight(0.2, Color.red, SkyboxRed, FogRed); }
+	else if (tDist < 250) 	{ ChangeLight(0.3, Color.yellow, SkyboxYellow, FogYellow); }
+	MoveTower();
+	MoveLight();
 }
 
 private function ChangeLight(targetLight : float)
@@ -345,14 +350,55 @@ private function ChangeLight(targetLight : float)
 private function ChangeLight(targetLight : float, newColor : Color, skyboxColor : Color, fogColor : Color)
 {
 	var light : Light = GameObject.Find("MainLight").light;
-	var tempColor : Color = Color.Lerp (light.color, newColor, ChangeSpeed * 2);
+	var wispLight : Light = GameObject.Find("WispLight").light;
+	var tempColor : Color = Color.Lerp (light.color, newColor, ChangeSpeed);
 	
 	if (light.intensity > targetLight) { light.intensity -= ChangeSpeed; }
 	if (light.intensity < targetLight) { light.intensity += ChangeSpeed; }
 	
 	light.color = tempColor;
-	RenderSettings.fogColor = Color.Lerp(RenderSettings.fogColor, fogColor, ChangeSpeed * 2);
-	RenderSettings.skybox.SetColor("_Tint", Color.Lerp(RenderSettings.skybox.GetColor("_Tint"), skyboxColor, ChangeSpeed * 2));
+	wispLight.color = tempColor;
+	RenderSettings.fogColor = Color.Lerp(RenderSettings.fogColor, fogColor, ChangeSpeed);
+	RenderSettings.skybox.SetColor("_Tint", Color.Lerp(RenderSettings.skybox.GetColor("_Tint"), skyboxColor, ChangeSpeed));
+}
+
+private function MoveTower()
+{
+	var towerTransform : Transform = GameObject.Find("Tower").transform;
+	var player : Transform = GameObject.Find("Player").transform;
+	
+	var end : Vector3 = player.position + (player.forward * 100);
+	end.y = 0;
+	
+	var towerRotation : Quaternion = towerTransform.rotation;
+	towerRotation.x = 0;
+	towerRotation.y = 0;
+	towerRotation.z = 0;
+	
+	towerTransform.position = end;
+	towerTransform.rotation = towerRotation;
+	towerTransform.localRotation = towerRotation;
+}
+
+private function MoveLight()
+{
+	var lt : Transform = GameObject.Find("WispLight").transform;
+	var player : Transform = GameObject.Find("Player").transform;
+	
+	var end : Vector3 = player.position + (player.forward * 5);
+	end.y = 6.5;
+	
+	var lr : Quaternion = lt.rotation;
+	lr.x = 0;
+	lr.y = 0;
+	lr.z = 0;
+	
+	lt.position = end;
+	lt.rotation = lr;
+	lt.localRotation = lr;
+	
+	var st : Transform = GameObject.Find("WispSphere").transform.transform;
+	st = lt.transform;
 }
 
 function FixedUpdate () {

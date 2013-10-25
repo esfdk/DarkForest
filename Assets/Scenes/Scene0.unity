@@ -85,6 +85,7 @@ GameObject:
   - 33: {fileID: 167976439}
   - 65: {fileID: 167976438}
   - 23: {fileID: 167976437}
+  - 114: {fileID: 167976440}
   m_Layer: 0
   m_Name: Tower
   m_TagString: Untagged
@@ -99,10 +100,10 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 167976435}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 100, z: 1}
+  m_LocalPosition: {x: 0, y: 50.9070816, z: 100}
+  m_LocalScale: {x: 10, y: 100, z: 10}
   m_Children: []
-  m_Father: {fileID: 1903294367}
+  m_Father: {fileID: 698014381}
 --- !u!23 &167976437
 Renderer:
   m_ObjectHideFlags: 0
@@ -140,6 +141,20 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 167976435}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &167976440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 167976435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69be5b2eaf561894e80e88c0896556fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: 
 --- !u!1 &177056687
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,7 +515,7 @@ GameObject:
   - 135: {fileID: 622830287}
   - 23: {fileID: 622830286}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: WispSphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -514,7 +529,7 @@ Transform:
   m_GameObject: {fileID: 622830284}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: .200000003, y: .200000003, z: .200000003}
+  m_LocalScale: {x: .100000001, y: .100000001, z: .100000001}
   m_Children: []
   m_Father: {fileID: 1903294367}
 --- !u!23 &622830286
@@ -588,6 +603,7 @@ Transform:
   m_Children:
   - {fileID: 1197620008}
   - {fileID: 532396335}
+  - {fileID: 167976436}
   m_Father: {fileID: 0}
 --- !u!114 &698014382
 MonoBehaviour:
@@ -1027,7 +1043,7 @@ Light:
   serializedVersion: 3
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: .100000001
+  m_Intensity: 0
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -1072,9 +1088,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 1903294367}
   - 108: {fileID: 1903294368}
-  - 114: {fileID: 1903294369}
   m_Layer: 0
-  m_Name: TeaserLight
+  m_Name: WispLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1087,11 +1102,10 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1903294366}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: 10}
+  m_LocalPosition: {x: 0, y: 2, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 622830285}
-  - {fileID: 167976436}
   m_Father: {fileID: 532396335}
 --- !u!108 &1903294368
 Light:
@@ -1103,8 +1117,8 @@ Light:
   serializedVersion: 3
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: .5
-  m_Range: 15
+  m_Intensity: 1.5
+  m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -1128,17 +1142,6 @@ Light:
   m_ShadowAngle: 0
   m_IndirectIntensity: 1
   m_AreaSize: {x: 1, y: 1}
---- !u!114 &1903294369
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1903294366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69be5b2eaf561894e80e88c0896556fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2106460330
 GameObject:
   m_ObjectHideFlags: 0
