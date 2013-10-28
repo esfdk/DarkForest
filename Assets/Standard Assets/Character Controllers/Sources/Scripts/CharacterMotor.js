@@ -195,10 +195,12 @@ private var controller : CharacterController;
 function Awake () {
 	controller = GetComponent (CharacterController);
 	tr = transform;
+		
 	var wispLight : Light = GameObject.Find("WispLight").light;
 	var mainLight : Light = GameObject.Find("MainLight").light;
 	wispLight.color = Color.blue;
 	mainLight.color = Color.blue;
+	
 	Screen.showCursor = false;
 }
 
@@ -376,7 +378,7 @@ private function MoveTower()
 	var tempAngle : float = player.rotation.eulerAngles.y;
 	
 	// Should get camera FoV, so needs changing.
-	var camFoV : float = 100 / 2;
+	var camFoV : float = camera.fieldOfView / 2;
 	
 	if (towerViewportPoint.x > 1) 
 	{ 
@@ -408,7 +410,7 @@ private function MoveTower()
 	towerRotation.y = 0;
 	towerRotation.z = 0;
 	
-	towerTransform.position = newPos;
+	towerTransform.position = newTowerPosition;
 	towerTransform.rotation = towerRotation;
 	towerTransform.localRotation = towerRotation;
 }
