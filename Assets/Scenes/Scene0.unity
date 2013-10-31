@@ -613,7 +613,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &622830285
 Transform:
   m_ObjectHideFlags: 0
@@ -1591,7 +1591,7 @@ Light:
   serializedVersion: 3
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 8
+  m_Intensity: 1.04999995
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -1636,6 +1636,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1903294367}
   - 108: {fileID: 1903294368}
+  - 122: {fileID: 1903294369}
   m_Layer: 0
   m_Name: WispLight
   m_TagString: Untagged
@@ -1690,6 +1691,17 @@ Light:
   m_ShadowAngle: 0
   m_IndirectIntensity: 1
   m_AreaSize: {x: 1, y: 1}
+--- !u!122 &1903294369
+Halo:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1903294366}
+  m_Enabled: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4286611584
+  m_Size: .699999988
 --- !u!1 &1938158153
 GameObject:
   m_ObjectHideFlags: 0

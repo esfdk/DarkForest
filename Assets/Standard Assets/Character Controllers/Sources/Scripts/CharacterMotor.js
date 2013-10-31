@@ -20,6 +20,7 @@ var inputMoveDirection : Vector3 = Vector3.zero;
 var inputJump : boolean = false;
 
 // Skybox colors
+private var SkyboxBlack : Color32 = Color32 (110, 110, 110, 255);
 private var SkyboxBlue : Color32 = Color32 (120, 120, 140, 255);
 private var SkyboxRed : Color32 = Color32 (150, 130, 130, 255);
 private var SkyboxYellow : Color32 = Color32 (140, 140, 0, 255);
@@ -27,6 +28,7 @@ private var SkyboxGreen : Color32 = Color32 (130, 150, 130, 255);
 private var SkyboxPurple : Color32 = Color32 (170, 0, 170, 255);
 
 // Fog colors
+private var FogBlack : Color32 = Color32 (5, 5, 5, 255);
 private var FogBlue : Color32 = Color32 (80, 80, 140, 255);
 private var FogRed : Color32 = Color32 (140, 80, 80, 255);
 private var FogYellow : Color32 = Color32 (125, 125, 0, 255);
@@ -336,11 +338,14 @@ private function UpdateFunction () {
 	var zDist : float = pPos.z - 625;
 	var tDist : float = Mathf.Sqrt(Mathf.Pow(xDist, 2) + 0 + Mathf.Pow(zDist, 2));
 	
-	if (tDist < 15) 		{ ChangeLight(0.1, Color.blue, SkyboxBlue, FogBlue); }
-	else if (tDist < 125) 	{ ChangeLight(0.2, Color.red, SkyboxRed, FogRed); }
-	else if (tDist < 250) 	{ ChangeLight(0.3, Color.yellow, SkyboxYellow, FogYellow); }
+	if (tDist < 15) 		{ ChangeLight(0.05, Color.grey, SkyboxBlack, FogBlack); }
+	else if (tDist < 125) 	{ ChangeLight(0.1, Color.blue, SkyboxBlue, FogBlue); }
+	else if (tDist < 250) 	{ ChangeLight(0.15, SkyboxPurple, SkyboxPurple, FogPurple); }
+	else if (tDist < 375) 	{ ChangeLight(0.2, Color.red, SkyboxRed, FogRed); }
+	else if (tDist < 500) 	{ ChangeLight(0.25, Color.yellow, SkyboxYellow, FogYellow); }
+	else if (tDist < 625) 	{ ChangeLight(0.3, Color.green, SkyboxGreen, FogGreen); }
 	
-	MoveTower();
+	//MoveTower();
 	MoveLight();
 }
 
@@ -432,8 +437,8 @@ private function MoveLight()
 	lt.rotation = lr;
 	lt.localRotation = lr;
 	
-	var st : Transform = GameObject.Find("WispSphere").transform.transform;
-	st = lt.transform;
+	//var st : Transform = GameObject.Find("WispSphere").transform.transform;
+	//st = lt.transform;
 }
 
 function FixedUpdate () {
