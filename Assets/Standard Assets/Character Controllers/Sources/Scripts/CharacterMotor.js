@@ -344,11 +344,6 @@ private function UpdateFunction () {
 	MoveLight();
 }
 
-private function ChangeLight(targetLight : float)
-{
-	ChangeLight(targetLight, Color.white, Color.white, Color.white);
-}
-
 private function ChangeLight(targetLight : float, newColor : Color, skyboxColor : Color, fogColor : Color)
 {
 	var light : Light = GameObject.Find("MainLight").light;
@@ -373,7 +368,7 @@ private function MoveTower()
 	var towerTransform : Transform = GameObject.Find("Tower").transform;
 	var player : Transform = GameObject.Find("Player").transform;
 	
-	var newTowerPosition : Vector3 = Vector3(0, 0, 0);
+	var newTowerPosition : Vector3 = Vector3(0, 75, 0);
 	var towerViewportPoint : Vector3 = camera.WorldToViewportPoint(towerTransform.position);
 	var tempAngle : float = player.rotation.eulerAngles.y;
 	
@@ -406,13 +401,13 @@ private function MoveTower()
 	newTowerPosition.z = newZ;
 	
 	var towerRotation : Quaternion = towerTransform.rotation;
-	towerRotation.x = 0;
+	towerRotation.x = 270;	
 	towerRotation.y = 0;
 	towerRotation.z = 0;
 	
 	towerTransform.position = newTowerPosition;
-	towerTransform.rotation = towerRotation;
-	towerTransform.localRotation = towerRotation;
+	//towerTransform.rotation = towerRotation;
+ 	//towerTransform.localRotation = towerRotation;
 }
 
 private function MoveLight()
