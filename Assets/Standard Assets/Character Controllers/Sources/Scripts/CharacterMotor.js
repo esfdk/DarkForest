@@ -338,14 +338,14 @@ private function UpdateFunction () {
 	var zDist : float = pPos.z - 625;
 	var tDist : float = Mathf.Sqrt(Mathf.Pow(xDist, 2) + 0 + Mathf.Pow(zDist, 2));
 	
-	if (tDist < 15) 		{ ChangeLight(0.05, Color.grey, SkyboxBlack, FogBlack); }
-	else if (tDist < 125) 	{ ChangeLight(0.1, Color.blue, SkyboxBlue, FogBlue); }
-	else if (tDist < 250) 	{ ChangeLight(0.15, SkyboxPurple, SkyboxPurple, FogPurple); }
-	else if (tDist < 375) 	{ ChangeLight(0.2, Color.red, SkyboxRed, FogRed); }
-	else if (tDist < 500) 	{ ChangeLight(0.25, Color.yellow, SkyboxYellow, FogYellow); }
-	else if (tDist < 625) 	{ ChangeLight(0.3, Color.green, SkyboxGreen, FogGreen); }
+	if (tDist < 15) 		{ ChangeLight(0.1, Color.grey, SkyboxBlack, FogBlack); }
+	else if (tDist < 125) 	{ ChangeLight(0.15, Color.blue, SkyboxBlue, FogBlue); }
+	else if (tDist < 250) 	{ ChangeLight(0.2, SkyboxPurple, SkyboxPurple, FogPurple); }
+	else if (tDist < 375) 	{ ChangeLight(0.25, Color.red, SkyboxRed, FogRed); }
+	else if (tDist < 500) 	{ ChangeLight(0.3, Color.yellow, SkyboxYellow, FogYellow); }
+	else if (tDist < 625) 	{ ChangeLight(0.35, Color.green, SkyboxGreen, FogGreen); }
 	
-	//MoveTower();
+	MoveTower();
 	MoveLight();
 }
 
