@@ -554,8 +554,8 @@ Transform:
   m_PrefabParentObject: {fileID: 400002, guid: 0ac3403686a316345bdf245c97b2fb8e, type: 2}
   m_PrefabInternal: {fileID: 1619930622}
   m_GameObject: {fileID: 698014380}
-  m_LocalRotation: {x: -.0330055654, y: .651395202, z: -.0239567291, w: .757641792}
-  m_LocalPosition: {x: 625, y: 5, z: 625}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 625, y: 10, z: 625}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1197620008}
@@ -1134,7 +1134,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 0ac3403686a316345bdf245c97b2fb8e, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 0ac3403686a316345bdf245c97b2fb8e, type: 2}
       propertyPath: m_LocalPosition.z
@@ -1184,6 +1184,14 @@ Prefab:
       propertyPath: field of view
       value: 60
       objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 0ac3403686a316345bdf245c97b2fb8e, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 0ac3403686a316345bdf245c97b2fb8e, type: 2}
+      propertyPath: jumping.enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0ac3403686a316345bdf245c97b2fb8e, type: 2}
   m_RootGameObject: {fileID: 698014380}
@@ -1199,6 +1207,7 @@ GameObject:
   - 4: {fileID: 1662300452}
   - 33: {fileID: 1662300455}
   - 23: {fileID: 1662300454}
+  - 114: {fileID: 1662300453}
   m_Layer: 0
   m_Name: Tower
   m_TagString: Untagged
@@ -1217,6 +1226,17 @@ Transform:
   m_LocalScale: {x: 20, y: 20, z: 20}
   m_Children: []
   m_Father: {fileID: 698014381}
+--- !u!114 &1662300453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1662300451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7575772bd8d891a42906ad34e4a277b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!23 &1662300454
 Renderer:
   m_ObjectHideFlags: 0
