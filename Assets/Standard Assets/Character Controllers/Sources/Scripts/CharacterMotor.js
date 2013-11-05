@@ -201,7 +201,7 @@ function Awake () {
 	var wispLight : Light = GameObject.Find("WispLight").light;
 	var mainLight : Light = GameObject.Find("MainLight").light;
 	wispLight.color = Color.blue;
-	mainLight.color = Color.blue;
+	//mainLight.color = Color.blue;
 	
 	Screen.showCursor = false;
 }
@@ -345,7 +345,6 @@ private function UpdateFunction () {
 	else if (tDist < 500) 	{ ChangeLight(0.3, Color.yellow, SkyboxYellow, FogYellow); }
 	else if (tDist < 625) 	{ ChangeLight(0.35, Color.green, SkyboxGreen, FogGreen); }
 	
-	MoveTower();
 	MoveLight();
 }
 
@@ -362,57 +361,6 @@ private function ChangeLight(targetLight : float, newColor : Color, skyboxColor 
 	wispLight.color = tempColor;
 	RenderSettings.fogColor = Color.Lerp(RenderSettings.fogColor, fogColor, ChangeSpeed);
 	RenderSettings.skybox.SetColor("_Tint", Color.Lerp(RenderSettings.skybox.GetColor("_Tint"), skyboxColor, ChangeSpeed));
-}
-
-private var towerAngle = 0.0f;
-private var distanceToTower : float = 100f;
-
-private function MoveTower()
-{
-	var camera : Camera = GameObject.Find("Main Camera").camera;
-	var towerTransform : Transform = GameObject.Find("Tower").transform;
-	var player : Transform = GameObject.Find("Player").transform;
-	
-	var newTowerPosition : Vector3 = Vector3(0, 75, 0);
-	var towerViewportPoint : Vector3 = camera.WorldToViewportPoint(towerTransform.position);
-	var tempAngle : float = player.rotation.eulerAngles.y;
-	
-	// Should get camera FoV, so needs changing.
-	var camFoV : float = camera.fieldOfView / 2;
-	
-	if (towerViewportPoint.x > 1) 
-	{ 
-		if (tempAngle + camFoV > 360)
-		{
-			towerAngle -= 360f;
-		}
-		
-		towerAngle = (tempAngle + camFoV);
-	}
-	if (towerViewportPoint.x < 0)
-	{
-		if (tempAngle - camFoV < 0)
-		{
-			towerAngle += 360f;
-		}
-		
-		towerAngle = (tempAngle - camFoV);
-	}
-	
-	var newX : float = player.position.x + distanceToTower * Mathf.Sin(towerAngle * (Mathf.PI / 180f));
-	var newZ : float = player.position.z + distanceToTower * Mathf.Cos(towerAngle * (Mathf.PI / 180f));
-	
-	newTowerPosition.x = newX;
-	newTowerPosition.z = newZ;
-	
-	var towerRotation : Quaternion = towerTransform.rotation;
-	towerRotation.x = 270;	
-	towerRotation.y = 0;
-	towerRotation.z = 0;
-	
-	towerTransform.position = newTowerPosition;
-	//towerTransform.rotation = towerRotation;
- 	//towerTransform.localRotation = towerRotation;
 }
 
 private function MoveLight()
