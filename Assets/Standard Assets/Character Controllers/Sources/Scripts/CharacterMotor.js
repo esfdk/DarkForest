@@ -194,9 +194,13 @@ private var tr : Transform;
 
 private var controller : CharacterController;
 
+private var spawnPoint : Vector3;
+
 function Awake () {
 	controller = GetComponent (CharacterController);
 	tr = transform;
+	
+	spawnPoint = GameObject.Find("Player").transform.position;
 		
 	var wispLight : Light = GameObject.Find("WispLight").light;
 	var mainLight : Light = GameObject.Find("MainLight").light;
@@ -359,6 +363,32 @@ private function ChangeLight(targetLight : float, newColor : Color, skyboxColor 
 	wispLight.color = tempColor;
 	RenderSettings.fogColor = Color.Lerp(RenderSettings.fogColor, fogColor, ChangeSpeed);
 	RenderSettings.skybox.SetColor("_Tint", Color.Lerp(RenderSettings.skybox.GetColor("_Tint"), skyboxColor, ChangeSpeed));
+}
+
+private function MoveLight()
+{
+	var lt : Transform = GameObject.Find("WispLight").transform;
+	var player : Transform = GameObject.Find("Player").transform;
+	
+	var end : Vector3 = player.position + (player.forward * 5);
+	end.y = 6.5;
+	
+	var lr : Quaternion = lt.rotation;
+	lr.x = 0;
+	lr.y = 0;
+	lr.z = 0;
+	
+	lt.position = end;
+	lt.rotation = lr;
+	lt.localRotation = lr;
+	
+	//var st : Transform = GameObject.Find("WispSphere").transform.transform;
+	//st = lt.transform;
+}
+
+public function Respawn()
+{
+	GameObject.Find("Player").transform.position = spawnPoint;
 }
 
 function FixedUpdate () {

@@ -70,7 +70,11 @@ Material:
       data:
         first:
           name: _Tint
+<<<<<<< HEAD
         second: {r: .435336411, g: .439300656, b: .435336411, a: .99999851}
+=======
+        second: {r: .509806931, g: .588232338, b: .509800971, a: .99999851}
+>>>>>>> More changes to the tower.
 --- !u!1002 &2100001
 EditorExtensionImpl:
   serializedVersion: 6
