@@ -346,7 +346,6 @@ private function UpdateFunction () {
 	else if (tDist < 625) 	{ ChangeLight(0.35, Color.green, SkyboxGreen, FogGreen); }
 	
 	MoveTower();
-	MoveLight();
 }
 
 private function ChangeLight(targetLight : float, newColor : Color, skyboxColor : Color, fogColor : Color)
@@ -378,7 +377,7 @@ private function MoveTower()
 	var tempAngle : float = player.rotation.eulerAngles.y;
 	
 	// Should get camera FoV, so needs changing.
-	var camFoV : float = camera.fieldOfView / 2;
+	var camFoV : float = 119 / 2;
 	
 	if (towerViewportPoint.x > 1) 
 	{ 
@@ -413,27 +412,6 @@ private function MoveTower()
 	towerTransform.position = newTowerPosition;
 	//towerTransform.rotation = towerRotation;
  	//towerTransform.localRotation = towerRotation;
-}
-
-private function MoveLight()
-{
-	var lt : Transform = GameObject.Find("WispLight").transform;
-	var player : Transform = GameObject.Find("Player").transform;
-	
-	var end : Vector3 = player.position + (player.forward * 5);
-	end.y = 6.5;
-	
-	var lr : Quaternion = lt.rotation;
-	lr.x = 0;
-	lr.y = 0;
-	lr.z = 0;
-	
-	lt.position = end;
-	lt.rotation = lr;
-	lt.localRotation = lr;
-	
-	//var st : Transform = GameObject.Find("WispSphere").transform.transform;
-	//st = lt.transform;
 }
 
 function FixedUpdate () {
