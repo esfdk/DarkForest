@@ -6,13 +6,16 @@ public class RandomWispMovement : MonoBehaviour {
 	private bool endReached;
 	private List<Vector3> travelPoints = new List<Vector3>();
 	private int nextPoint = 1;
+	private float pauseTimer;
 	private Vector3 start;
-	public float speed = 0.01f;
+	public float speed;
 	public Vector3 end = new Vector3(0, 3, 18);
+	public int pauseProbability = 10;
+	public float pauseLength = 1.0f;
 	
 	// Use this for initialization
 	void Start () 
-	{
+	{	
 		start = transform.position;
 		
 		var dist = Vector3.Distance(start, end);
@@ -46,12 +49,22 @@ public class RandomWispMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+		if(pauseTimer > 0)
+		{
+			pauseTimer -= Time.deltaTime;
+			return;
+		}
+		
 		if(!endReached)
 		{
 			float step = speed * Time.deltaTime;
 			transform.position = Vector3.MoveTowards(transform.position, travelPoints[nextPoint], step);
 			if(transform.position.Equals(travelPoints[nextPoint]))
 			{
+				if(Random.Range(0, 100) <= pauseProbability)
+				{
+					pauseTimer = pauseLength;	
+				}
 				nextPoint++;
 			}
 			
@@ -76,5 +89,12 @@ public class RandomWispMovement : MonoBehaviour {
 		
 		
 		return vector;
+	}
+	
+	void SetEnd(float x, float y, float z)
+	{
+		end.x = x;
+		end.y = y;
+		end.z = z;
 	}
 }

@@ -5,7 +5,7 @@ public class UpdateTower : MonoBehaviour {
 
 	private float towerAngle = 0.0f;
 	private float distanceToTower = 100f;
-	private float change = 0.002f;
+	private float change = 0.005f;
 	
 	// Update is called once per frame
 	void Update () 
