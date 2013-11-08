@@ -30,11 +30,9 @@ public class WispSpawner : MonoBehaviour
 	
 	void OnTriggerEnter(Collider other) 
 	{	
-		for(var i = 0; i < 5; i++)
-		{
 		//if(other.gameObject.tag == 
 		var w = (GameObject) Instantiate(wisp, other.gameObject.transform.position, other.gameObject.transform.rotation);
 		var ty = Terrain.activeTerrain.SampleHeight(w.transform.position);
 		w.GetComponent<RandomWispMovement>().end = new Vector3(900, ty, 300);
-	}}
+	}
 }
