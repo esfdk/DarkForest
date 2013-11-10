@@ -350,14 +350,14 @@ private function ChangeLight(targetLight : float, newColor : Color, skyboxColor 
 	var light : Light = GameObject.Find("MainLight").light;
 	var tempColor : Color = Color.Lerp (light.color, newColor, ChangeSpeed);
 	
-	if (light.intensity > targetLight) { Debug.Log("huehue" + light.intensity); light.intensity -= ChangeSpeed; }
-	if (light.intensity < targetLight) { Debug.Log("euheuh" + light.intensity); light.intensity += ChangeSpeed; }
+	if (light.intensity > targetLight) { light.intensity -= ChangeSpeed; }
+	if (light.intensity < targetLight) { light.intensity += ChangeSpeed; }
 	
 	light.color = tempColor;
-	for(var w : GameObject in GameObject.FindGameObjectsWithTag("Wisp"))
+	/*for(var w : GameObject in GameObject.FindGameObjectsWithTag("Wisp"))
 	{
 		w.light.color = tempColor;
-	}
+	}*/
 	
 	RenderSettings.fogColor = Color.Lerp(RenderSettings.fogColor, fogColor, ChangeSpeed);
 	RenderSettings.skybox.SetColor("_Tint", Color.Lerp(RenderSettings.skybox.GetColor("_Tint"), skyboxColor, ChangeSpeed));

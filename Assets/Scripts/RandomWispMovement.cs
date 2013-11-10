@@ -3,11 +3,13 @@ using System.Collections.Generic;
 
 public class RandomWispMovement : MonoBehaviour {
 	
-	private bool endReached;
+	private bool endReached, wispDisappear = false;
 	private List<Vector3> travelPoints = new List<Vector3>();
 	private int nextPoint = 1;
 	private float pauseTimer;
+	private float despawnDistance = 15;
 	private Vector3 start;
+	
 	public float speed;
 	public Vector3 end = new Vector3(0, 3, 18);
 	public int pauseProbability = 10;
@@ -15,8 +17,10 @@ public class RandomWispMovement : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () 
-	{	
-		start = transform.position;
+	{
+		var tempStart = transform.position;
+		tempStart.y = Terrain.activeTerrain.SampleHeight(tempStart) + 2;
+		start = tempStart;
 		
 		var dist = Vector3.Distance(start, end);
 
@@ -59,16 +63,47 @@ public class RandomWispMovement : MonoBehaviour {
 		{
 			float step = speed * Time.deltaTime;
 			transform.position = Vector3.MoveTowards(transform.position, travelPoints[nextPoint], step);
+			
 			if(transform.position.Equals(travelPoints[nextPoint]))
 			{
 				if(Random.Range(0, 100) <= pauseProbability)
 				{
 					pauseTimer = pauseLength;	
 				}
+				
 				nextPoint++;
 			}
 			
 			endReached =  transform.position.Equals(end);
+		}
+		
+		// If the end point is reached, but the wisp is not set to disappear yet ...
+		if(endReached && !wispDisappear)
+		{
+			var pPos = GameObject.Find("Player").transform.position;
+			
+			// Check if the player is close to the wisp.
+			if (Vector3.Distance(pPos, transform.position) < despawnDistance)
+			{
+				// Add a new end point to the wisp's path
+				var tempEnd = end;
+				tempEnd.y = Terrain.activeTerrain.SampleHeight(tempEnd) - 2;
+				
+				travelPoints[nextPoint] = tempEnd;
+				end = tempEnd;
+				
+				// Make sure this part of code isn't called again, but force the wisp
+				// to move again.
+				wispDisappear = true;
+				endReached = false;
+			}
+		}
+		
+		// If the wisp has gone underground ...
+		if(endReached && wispDisappear)
+		{
+			// .. destroy it.
+			Destroy(this);
 		}
 	}
 	

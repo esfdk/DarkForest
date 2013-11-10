@@ -53,7 +53,6 @@ public class UpdateTower : MonoBehaviour {
 		{ 
 			// Calculate the world points that correspond to the edge of the camera
 			var tempVector = camera.ViewportToWorldPoint(new Vector3(towerViewportPoint.x - change, towerViewportPoint.y, towerViewportPoint.z));
-			tempVector.y = newTowerPosition.y;
 			newTowerPosition = tempVector;
 			
 			// Calculate a new angle for the tower
@@ -65,7 +64,6 @@ public class UpdateTower : MonoBehaviour {
 		{
 			// Calculate the world points that correspond to the edge of the camera
 			var tempVector = camera.ViewportToWorldPoint(new Vector3(towerViewportPoint.x + change, towerViewportPoint.y, towerViewportPoint.z));
-			tempVector.y = newTowerPosition.y;
 			newTowerPosition = tempVector;
 			
 			// Calculate a new angle for the tower
@@ -81,6 +79,9 @@ public class UpdateTower : MonoBehaviour {
 			newTowerPosition.x = newX;
 			newTowerPosition.z = newZ;
 		}
+		
+		var test = Terrain.activeTerrain.SampleHeight(newTowerPosition) + 70;
+		newTowerPosition.y = test;
 		
 		towerTransform.position = newTowerPosition;
 	}

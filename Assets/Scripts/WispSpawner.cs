@@ -2,70 +2,49 @@
 using System.Collections;
 
 public class WispSpawner : MonoBehaviour 
-{
-	private string GateEastTag = "GateEast";
-	private Vector3 GateEastLocation;
+{	
+	private WispData GateEast = new WispData("GateEast");
+	private WispData GateWest = new WispData("GateWest");
+	private WispData Church = new WispData("Church");
+	private WispData HousesEast = new WispData("HousesEast");
+	private WispData HousesWest = new WispData("HousesWest");
+	private WispData Graveyard = new WispData("Graveyard");
+	private WispData Hill = new WispData("Hill");
+	private WispData ClearingNorth = new WispData("ClearingNorth");
+	private WispData ClearingSouth = new WispData("ClearingSouth");
+	private WispData PillarNE = new WispData("PillarNE");
+	private WispData PillarNW = new WispData("PillarNW");
+	private WispData PillarSE = new WispData("PillarSE");
+	private WispData PillarSW = new WispData("PillarSW");
 	
-	private string GateWestTag = "GateWest";
-	private Vector3 GateWestLocation;
+	private WispData TestWisp = new WispData("Test");
 	
-	private string ChurchTag = "Church";
-	private Vector3 ChurchLocation;
-	
-	private string HousesEastTag = "HousesEast";
-	private Vector3 HouseEastLocation;
-	
-	private string HousesWestTag = "HousesWest";
-	private Vector3 HouseWestLocation;
-	
-	private string GraveyardTag = "Graveyard";
-	private Vector3 GraveyardLocation;
-	
-	private string HillTag = "Hill";
-	private Vector3 HillLocation;
-	
-	private string ClearingNorthTag = "ClearingNorth";
-	private Vector3 ClearingNorthLocation;
-	
-	private string ClearingSouthTag = "ClearingSouth";
-	private Vector3 ClearingSouthLocation;
-	
-	private string PillarNETag = "PillarNE";
-	private Vector3 PillarNELocation;
-	
-	private string PillarNWTag = "PillarNW";
-	private Vector3 PillarNWLocation;
-	
-	private string PillarSETag = "PillarSE";
-	private Vector3 PillarSELocation;
-	
-	private string PillarSWTag = "PillarSW";
-	private Vector3 PillarSWLocation;
-	
-	private int heightFromTerrain = 3;
+	private const int heightFromTerrain = 3;
 	
 	public GameObject wisp;
 	
 	// Use this for initialization
 	void Start () 
 	{
-		GateEastLocation = CreateLocation(745, 710);
-		GateWestLocation = CreateLocation(490, 660);
+		GateEast.Location = CreateLocation(745, 710);
+		GateWest.Location = CreateLocation(490, 660);
 		
-		ChurchLocation = CreateLocation(450, 550);
-		HouseEastLocation = CreateLocation(545, 590);
-		HouseWestLocation = CreateLocation(670, 720);
+		Church.Location = CreateLocation(450, 550);
+		HousesEast.Location = CreateLocation(545, 590);
+		HousesWest.Location = CreateLocation(670, 720);
 		
-		GraveyardLocation = CreateLocation(490, 600);
-		HillLocation = CreateLocation(770, 590);
+		Graveyard.Location = CreateLocation(490, 600);
+		Hill.Location = CreateLocation(770, 590);
 		
-		ClearingNorthLocation = CreateLocation(560, 820);
-		ClearingSouthLocation = CreateLocation(625, 445);
+		ClearingNorth.Location = CreateLocation(560, 820);
+		ClearingSouth.Location = CreateLocation(625, 445);
 		
-		PillarNELocation = CreateLocation(730, 770);
-		PillarNWLocation = CreateLocation(510, 770);
-		PillarSELocation = CreateLocation(510, 480);
-		PillarSWLocation = CreateLocation(730, 480);
+		PillarNE.Location = CreateLocation(730, 770);
+		PillarNW.Location = CreateLocation(510, 770);
+		PillarSE.Location = CreateLocation(510, 480);
+		PillarSW.Location = CreateLocation(730, 480);
+		
+		TestWisp.Location = CreateLocation(630, 630);
 	}
 	
 	/// <summary>
@@ -90,61 +69,119 @@ public class WispSpawner : MonoBehaviour
 	
 	void OnTriggerEnter(Collider other) 
 	{	
-		var w = (GameObject) Instantiate(wisp, other.gameObject.transform.position, other.gameObject.transform.rotation);
+		var otherTag = other.gameObject.tag;
 		
-		switch (other.gameObject.tag)
+		// I hate doing it like this, but can't use switch
+		// as WispData.Tag is not a const D:
+		if (GateEast.ValidWisp(otherTag))
 		{
-			case GateEastTag:
-				w.GetComponent<RandomWispMovement>().end = GateEastLocation;
-				break;
+			SpawnWisp(other, GateEast);
+		}
+		else if (GateWest.ValidWisp(otherTag))
+		{
+			SpawnWisp(other, GateWest);
+		}
+		else if (Church.ValidWisp(otherTag))
+		{
+			SpawnWisp(other, Church);
+		}
+		else if (HousesEast.ValidWisp(otherTag))
+		{
+			SpawnWisp(other, HousesEast);
+		}
+		else if (HousesWest.ValidWisp(otherTag))
+		{
+			SpawnWisp(other, HousesWest);
+		}
+		else if (Graveyard.ValidWisp(otherTag))
+		{
+			SpawnWisp(other, Graveyard);
+		}
+		else if (Hill.ValidWisp(otherTag))
+		{
+			SpawnWisp(other, Hill);
+		}
+		else if (ClearingNorth.ValidWisp(otherTag))
+		{
+			SpawnWisp(other, ClearingNorth);
+		}
+		else if (ClearingSouth.ValidWisp(otherTag))
+		{
+			SpawnWisp(other, ClearingSouth);
+		}
+		else if (PillarNE.ValidWisp(otherTag))
+		{
+			SpawnWisp(other, PillarNE);
+		}
+		else if (PillarNW.ValidWisp(otherTag))
+		{
+			SpawnWisp(other, PillarNW);
+		}
+		else if (PillarSE.ValidWisp(otherTag))
+		{
+			SpawnWisp(other, PillarSE);
+		}
+		else if (PillarSW.ValidWisp(otherTag))
+		{
+			SpawnWisp(other, PillarSW);
+		}
+		else
+		{
+			if(TestWisp.CanSpawn())
+			{
+				SpawnWisp(other, TestWisp);
+			}
+		}
+	}
+	
+	/// <summary>
+	/// Spawns a wisp that travels toward the location of the wispData.
+	/// </summary>
+	/// <param name='other'> The collider </param>
+	/// <param name='wispData'> The wisp data. </param>
+	private void SpawnWisp(Collider other, WispData wispData)
+	{
+		var tempSpawn = other.gameObject.transform.position;
+		tempSpawn.y -= 2;
+		
+		var w = (GameObject) Instantiate(Resources.Load("Wisp"), tempSpawn, other.gameObject.transform.rotation);
+		var wisp = w.GetComponent<RandomWispMovement>();
+		
+		wisp.end = wispData.Location;
+		wispData.LastSpawn = Time.realtimeSinceStartup;
+	}
+	
+	/// <summary>
+	/// A class that represents the data of a wisp.
+	/// </summary>
+	private class WispData
+	{
+		private const int spawnDifference = 300;
+		
+		public string Tag { get; private set; }
+		public Vector3 Location { get; set; }
+		public float LastSpawn { get; set; }
+		
+		public WispData(string tag)
+		{
+			Tag = tag;
+			Location = new Vector3(0f, 0f, 0f);
+			LastSpawn = 0f;
+		}
+		
+		public bool ValidWisp(string tag)
+		{
+			if (Tag.Equals(tag) && CanSpawn()) return true;
 			
-			case GateWestTag:
-				w.GetComponent<RandomWispMovement>().end = GateWestLocation;
-				break;
+			return false;
+		}
+		
+		public bool CanSpawn()
+		{
+			if (LastSpawn == 0f) return true;	
+			if (Time.realtimeSinceStartup - LastSpawn > spawnDifference) return true;
 			
-			case ChurchTag:
-				w.GetComponent<RandomWispMovement>().end = ChurchLocation;
-				break;
-			
-			case HousesEastTag:
-				w.GetComponent<RandomWispMovement>().end = HouseEastLocation;
-				break;
-			
-			case HousesWestTag:
-				w.GetComponent<RandomWispMovement>().end = HouseWestLocation;
-				break;
-			
-			case GraveyardTag:
-				w.GetComponent<RandomWispMovement>().end = GraveyardLocation;
-				break;
-			
-			case HillTag:
-				w.GetComponent<RandomWispMovement>().end = HillLocation;
-				break;
-			
-			case ClearingNorthTag:
-				w.GetComponent<RandomWispMovement>().end = ClearingNorthLocation;
-				break;
-			
-			case ClearingSouthTag:
-				w.GetComponent<RandomWispMovement>().end = ClearingSouthLocation;
-				break;
-			
-			case PillarNETag:
-				w.GetComponent<RandomWispMovement>().end = PillarNELocation;
-				break;
-			
-			case PillarNWTag:
-				w.GetComponent<RandomWispMovement>().end = PillarNWLocation;
-				break;
-			
-			case PillarSETag:
-				w.GetComponent<RandomWispMovement>().end = PillarSELocation;
-				break;
-			
-			case PillarSWTag:
-				w.GetComponent<RandomWispMovement>().end = PillarSWLocation;
-				break;
+			return false;
 		}
 	}
 }
