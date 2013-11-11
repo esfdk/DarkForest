@@ -15,7 +15,7 @@ public class WispSpawner : MonoBehaviour
 	
 	// Use this for initialization
 	void Start () 
-	{		
+	{
 		WispList = new System.Collections.Generic.List<WispData>();
 		
 		WispList.Add(new WispData("GateEast", 745, 710));
@@ -40,7 +40,7 @@ public class WispSpawner : MonoBehaviour
 		WispList.Add(new WispData("StatueNorth", 420, 690));
 		WispList.Add(new WispData("StatueSouth", 420, 630));
 		
-		//WispList.Add(new WispData("Test", 630, 630));
+		WispList.Add(new WispData("Test", 630, 630));
 	}
 	
 	// Update is called once per frame
@@ -58,6 +58,7 @@ public class WispSpawner : MonoBehaviour
 	void OnTriggerEnter(Collider other) 
 	{	
 		var otherTag = other.gameObject.tag;
+		otherTag = "Test";
 		var tempWisp = WispList.FirstOrDefault(a => a.Tag == otherTag);
 		
 		if (tempWisp != null)
@@ -88,10 +89,9 @@ public class WispSpawner : MonoBehaviour
 		public Vector3 EndLocation { get; set; }
 		public float LastSpawnCycle { get; set; }
 		
-		private bool firstWisp;
+		private bool firstWisp, playSound;
 		private int wispsToSpawn;
-		private float lastSpawn;
-		private float spawnDelay = 5f;
+		private float lastSpawn, spawnDelay = 5f;
 		private Vector3 spawnLocation;
 		private Quaternion spawnRotation;
 		
@@ -156,7 +156,13 @@ public class WispSpawner : MonoBehaviour
 		{			
 			if (SpawnWispInCycle())
 			{
-				var w = (GameObject) Instantiate(Resources.Load("Wisp"), spawnLocation, spawnRotation);
+				if (playSound)
+				{
+					AudioSource.PlayClipAtPoint((AudioClip) Resources.Load("Wisp/Wisp spawn"), spawnLocation);
+					playSound = false;
+				}
+				
+				var w = (GameObject) Instantiate(Resources.Load("Wisp/Wisp"), spawnLocation, spawnRotation);
 				var wisp = w.GetComponent<RandomWispMovement>();
 				
 				wisp.end = EndLocation;
@@ -178,6 +184,7 @@ public class WispSpawner : MonoBehaviour
 			if (firstWisp)
 			{
 				firstWisp = false; 
+				playSound = true;
 				lastSpawn = Time.realtimeSinceStartup;
 				return true;
 			}
