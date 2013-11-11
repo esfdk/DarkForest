@@ -19,7 +19,7 @@ public class RandomWispMovement : MonoBehaviour {
 	void Start () 
 	{
 		var tempStart = transform.position;
-		tempStart.y = Terrain.activeTerrain.SampleHeight(tempStart) + 2;
+		tempStart.y = Terrain.activeTerrain.SampleHeight(tempStart) + 1f;
 		start = tempStart;
 		
 		var dist = Vector3.Distance(start, end);
@@ -119,7 +119,7 @@ public class RandomWispMovement : MonoBehaviour {
 		
 		if(vector.y < ty)
 		{
-			vector.y = ty + 0.2f;
+			vector.y = ty + 0.9f;
 		}
 		
 		

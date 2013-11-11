@@ -4,14 +4,21 @@
 TagManager:
   tags:
   - Wisp
-  - Gate
+  - GateEast
   - Church
-  - Graveyard
+  - 
   - Tower
   - Hill
-  - ClearingA
-  - ClearingB
+  - ClearingNorth
+  - ClearingSouth
+  - HousesWest
+  - HousesEast
   - 
+  - 
+  - 
+  - 
+  - Statues
+  - Well
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX

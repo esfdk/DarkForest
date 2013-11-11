@@ -11,41 +11,43 @@ public class WispSpawner : MonoBehaviour
 	/// </summary>
 	private const int heightFromTerrain = 3;
 	
-	public GameObject wisp;
-	
 	// Use this for initialization
 	void Start () 
 	{
 		WispList = new System.Collections.Generic.List<WispData>();
 		
-		WispList.Add(new WispData("GateEast", 745, 710));
-		WispList.Add(new WispData("GateWest", 490, 660));
+		WispList.Add(new WispData("GateEast", 765, 712));
 		
-		WispList.Add(new WispData("Church", 450, 550));
-		WispList.Add(new WispData("HousesEast", 545, 590));
-		WispList.Add(new WispData("HousesWest", 670, 720));
+		WispList.Add(new WispData("Church", 475, 560));
+		WispList.Add(new WispData("HousesEast", 684, 722));
+		WispList.Add(new WispData("HousesWest", 525, 615));
 		
 		WispList.Add(new WispData("Graveyard", 490, 600));
-		WispList.Add(new WispData("Hill", 770, 590));
+		WispList.Add(new WispData("Hill", 760, 615));
 		WispList.Add(new WispData("Well", 560, 715));
 		
 		WispList.Add(new WispData("ClearingNorth", 560, 820));
 		WispList.Add(new WispData("ClearingSouth", 625, 445));
 		
-		WispList.Add(new WispData("PillarNE", 730, 770));
-		WispList.Add(new WispData("PillarNW", 510, 770));
-		WispList.Add(new WispData("PillarSE", 510, 480));
-		WispList.Add(new WispData("PillarSW", 730, 480));
-		
-		WispList.Add(new WispData("StatueNorth", 420, 690));
-		WispList.Add(new WispData("StatueSouth", 420, 630));
-		
-		WispList.Add(new WispData("Test", 630, 630));
+		WispList.Add(new WispData("Statues", 420, 660));
 	}
+	
+	private bool firstSound = true;
 	
 	// Update is called once per frame
 	void Update () 
 	{
+		if(Time.realtimeSinceStartup < 1 && Time.realtimeSinceStartup > 0.5 && firstSound)
+		{
+			var player = GameObject.Find("Player").transform;
+			var start = new Vector3(player.position.x, player.position.y, player.position.z + 2);
+			var w = (GameObject) Instantiate(Resources.Load("Wisp/Wisp"), start, player.rotation);
+			var wisp = w.GetComponent<RandomWispMovement>();
+			wisp.end = new Vector3(625, 2, 625);
+			
+			AudioSource.PlayClipAtPoint((AudioClip) Resources.Load("Wisp/Wisp spawn"), start);
+			firstSound = false;
+		}
 		foreach (var wisp in WispList)
 		{
 			if (wisp.SpawningCycleOngoing())
@@ -58,7 +60,6 @@ public class WispSpawner : MonoBehaviour
 	void OnTriggerEnter(Collider other) 
 	{	
 		var otherTag = other.gameObject.tag;
-		otherTag = "Test";
 		var tempWisp = WispList.FirstOrDefault(a => a.Tag == otherTag);
 		
 		if (tempWisp != null)
@@ -73,7 +74,7 @@ public class WispSpawner : MonoBehaviour
 				var spawnPosition = tempPosition;
 				var spawnRotation = tempRotation;
 				
-				tempWisp.StartSpawning(3, spawnPosition, spawnRotation);
+				tempWisp.StartSpawning(5, spawnPosition, spawnRotation);
 			}
 		}
 	}

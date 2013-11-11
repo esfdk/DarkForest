@@ -332,17 +332,22 @@ private function UpdateFunction () {
         movingPlatform.activeLocalRotation = Quaternion.Inverse(movingPlatform.activePlatform.rotation) * movingPlatform.activeGlobalRotation; 
 	}
 	
+    if(Input.GetKeyDown(KeyCode.Escape))
+    {
+    	Application.Quit();
+    }
+	
 	var pPos : Vector3 = GameObject.Find("Player").transform.position;
 	var xDist : float = pPos.x - spawnPoint.x;
 	var zDist : float = pPos.z - spawnPoint.z;
 	var tDist : float = Mathf.Sqrt(Mathf.Pow(xDist, 2) + 0 + Mathf.Pow(zDist, 2));
 	
-	if (tDist < 15) 		{ ChangeLight(0.2, Color.grey, SkyboxBlack, FogBlack); }
-	else if (tDist < 125) 	{ ChangeLight(0.3, Color.blue, SkyboxBlue, FogBlue); }
-	else if (tDist < 250) 	{ ChangeLight(0.4, SkyboxPurple, SkyboxPurple, FogPurple); }
-	else if (tDist < 375) 	{ ChangeLight(0.5, Color.red, SkyboxRed, FogRed); }
-	else if (tDist < 500) 	{ ChangeLight(0.6, Color.yellow, SkyboxYellow, FogYellow); }
-	else if (tDist < 625) 	{ ChangeLight(0.7, Color.green, SkyboxGreen, FogGreen); }
+	if (tDist < 15) 		{ ChangeLight(0.3, Color.grey, SkyboxBlack, FogBlack); }
+	else if (tDist < 125) 	{ ChangeLight(0.4, Color.blue, SkyboxBlue, FogBlue); }
+	else if (tDist < 250) 	{ ChangeLight(0.5, SkyboxPurple, SkyboxPurple, FogPurple); }
+	else if (tDist < 375) 	{ ChangeLight(0.6, Color.red, SkyboxRed, FogRed); }
+	else if (tDist < 500) 	{ ChangeLight(0.7, Color.yellow, SkyboxYellow, FogYellow); }
+	else if (tDist < 625) 	{ ChangeLight(0.8, Color.green, SkyboxGreen, FogGreen); }
 }
 
 private function ChangeLight(targetLight : float, newColor : Color, skyboxColor : Color, fogColor : Color)
