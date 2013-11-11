@@ -333,8 +333,8 @@ private function UpdateFunction () {
 	}
 	
 	var pPos : Vector3 = GameObject.Find("Player").transform.position;
-	var xDist : float = pPos.x - 625;
-	var zDist : float = pPos.z - 625;
+	var xDist : float = pPos.x - spawnPoint.x;
+	var zDist : float = pPos.z - spawnPoint.z;
 	var tDist : float = Mathf.Sqrt(Mathf.Pow(xDist, 2) + 0 + Mathf.Pow(zDist, 2));
 	
 	if (tDist < 15) 		{ ChangeLight(0.2, Color.grey, SkyboxBlack, FogBlack); }
@@ -347,12 +347,14 @@ private function UpdateFunction () {
 
 private function ChangeLight(targetLight : float, newColor : Color, skyboxColor : Color, fogColor : Color)
 {
+	var pTransform : Transform = GameObject.Find("Player").transform;
 	var light : Light = GameObject.Find("MainLight").light;
 	var tempColor : Color = Color.Lerp (light.color, newColor, ChangeSpeed);
 	
 	if (light.intensity > targetLight) { light.intensity -= ChangeSpeed; }
 	if (light.intensity < targetLight) { light.intensity += ChangeSpeed; }
 	
+	light.transform.rotation.eulerAngles.y = pTransform.rotation.eulerAngles.y;
 	light.color = tempColor;
 	/*for(var w : GameObject in GameObject.FindGameObjectsWithTag("Wisp"))
 	{
