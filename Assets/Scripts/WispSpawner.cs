@@ -40,7 +40,7 @@ public class WispSpawner : MonoBehaviour
 		WispList.Add(new WispData("StatueNorth", 420, 690));
 		WispList.Add(new WispData("StatueSouth", 420, 630));
 		
-		WispList.Add(new WispData("Test", 630, 630));
+		//WispList.Add(new WispData("Test", 630, 630));
 	}
 	
 	// Update is called once per frame
@@ -58,7 +58,6 @@ public class WispSpawner : MonoBehaviour
 	void OnTriggerEnter(Collider other) 
 	{	
 		var otherTag = other.gameObject.tag;
-		otherTag = "Test";
 		var tempWisp = WispList.FirstOrDefault(a => a.Tag == otherTag);
 		
 		if (tempWisp != null)
