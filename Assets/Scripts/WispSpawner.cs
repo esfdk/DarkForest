@@ -1,154 +1,81 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Linq;
+using System.Collections.Generic;
 
 public class WispSpawner : MonoBehaviour 
 {	
-	private WispData GateEast = new WispData("GateEast");
-	private WispData GateWest = new WispData("GateWest");
-	private WispData Church = new WispData("Church");
-	private WispData HousesEast = new WispData("HousesEast");
-	private WispData HousesWest = new WispData("HousesWest");
-	private WispData Graveyard = new WispData("Graveyard");
-	private WispData Hill = new WispData("Hill");
-	private WispData ClearingNorth = new WispData("ClearingNorth");
-	private WispData ClearingSouth = new WispData("ClearingSouth");
-	private WispData PillarNE = new WispData("PillarNE");
-	private WispData PillarNW = new WispData("PillarNW");
-	private WispData PillarSE = new WispData("PillarSE");
-	private WispData PillarSW = new WispData("PillarSW");
+	private System.Collections.Generic.List<WispData> WispList;
 	
-	private WispData TestWisp = new WispData("Test");
-	
+	/// <summary>
+	/// Constant height from terrain. (used by the WispData class)
+	/// </summary>
 	private const int heightFromTerrain = 3;
 	
 	public GameObject wisp;
 	
 	// Use this for initialization
 	void Start () 
-	{
-		GateEast.Location = CreateLocation(745, 710);
-		GateWest.Location = CreateLocation(490, 660);
+	{		
+		WispList = new System.Collections.Generic.List<WispData>();
 		
-		Church.Location = CreateLocation(450, 550);
-		HousesEast.Location = CreateLocation(545, 590);
-		HousesWest.Location = CreateLocation(670, 720);
+		WispList.Add(new WispData("GateEast", 745, 710));
+		WispList.Add(new WispData("GateWest", 490, 660));
 		
-		Graveyard.Location = CreateLocation(490, 600);
-		Hill.Location = CreateLocation(770, 590);
+		WispList.Add(new WispData("Church", 450, 550));
+		WispList.Add(new WispData("HousesEast", 545, 590));
+		WispList.Add(new WispData("HousesWest", 670, 720));
 		
-		ClearingNorth.Location = CreateLocation(560, 820);
-		ClearingSouth.Location = CreateLocation(625, 445);
+		WispList.Add(new WispData("Graveyard", 490, 600));
+		WispList.Add(new WispData("Hill", 770, 590));
+		WispList.Add(new WispData("Well", 560, 715));
 		
-		PillarNE.Location = CreateLocation(730, 770);
-		PillarNW.Location = CreateLocation(510, 770);
-		PillarSE.Location = CreateLocation(510, 480);
-		PillarSW.Location = CreateLocation(730, 480);
+		WispList.Add(new WispData("ClearingNorth", 560, 820));
+		WispList.Add(new WispData("ClearingSouth", 625, 445));
 		
-		TestWisp.Location = CreateLocation(630, 630);
-	}
-	
-	/// <summary>
-	/// Creates a location with the terrain's height based on the x and z coordinates.
-	/// </summary>
-	/// <returns> The location. </returns>
-	/// <param name='x'> The x-coordinate. </param>
-	/// <param name='z'> The z-coordinate. </param>
-	private Vector3 CreateLocation(int x, int z)
-	{
-		var tempVector = new Vector3(x, 0, z);
-		var terrainY = Terrain.activeTerrain.SampleHeight(tempVector) + heightFromTerrain;
-		tempVector.y = terrainY;
+		WispList.Add(new WispData("PillarNE", 730, 770));
+		WispList.Add(new WispData("PillarNW", 510, 770));
+		WispList.Add(new WispData("PillarSE", 510, 480));
+		WispList.Add(new WispData("PillarSW", 730, 480));
 		
-		return tempVector;
+		WispList.Add(new WispData("StatueNorth", 420, 690));
+		WispList.Add(new WispData("StatueSouth", 420, 630));
+		
+		WispList.Add(new WispData("Test", 630, 630));
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	void Update () 
+	{
+		foreach (var wisp in WispList)
+		{
+			if (wisp.SpawningCycleOngoing())
+			{
+				wisp.SpawnWisp();	
+			}
+		}
 	}
 	
 	void OnTriggerEnter(Collider other) 
 	{	
 		var otherTag = other.gameObject.tag;
+		otherTag = "Test";
+		var tempWisp = WispList.FirstOrDefault(a => a.Tag == otherTag);
 		
-		// I hate doing it like this, but can't use switch
-		// as WispData.Tag is not a const D:
-		if (GateEast.ValidWisp(otherTag))
+		if (tempWisp != null)
 		{
-			SpawnWisp(other, GateEast);
-		}
-		else if (GateWest.ValidWisp(otherTag))
-		{
-			SpawnWisp(other, GateWest);
-		}
-		else if (Church.ValidWisp(otherTag))
-		{
-			SpawnWisp(other, Church);
-		}
-		else if (HousesEast.ValidWisp(otherTag))
-		{
-			SpawnWisp(other, HousesEast);
-		}
-		else if (HousesWest.ValidWisp(otherTag))
-		{
-			SpawnWisp(other, HousesWest);
-		}
-		else if (Graveyard.ValidWisp(otherTag))
-		{
-			SpawnWisp(other, Graveyard);
-		}
-		else if (Hill.ValidWisp(otherTag))
-		{
-			SpawnWisp(other, Hill);
-		}
-		else if (ClearingNorth.ValidWisp(otherTag))
-		{
-			SpawnWisp(other, ClearingNorth);
-		}
-		else if (ClearingSouth.ValidWisp(otherTag))
-		{
-			SpawnWisp(other, ClearingSouth);
-		}
-		else if (PillarNE.ValidWisp(otherTag))
-		{
-			SpawnWisp(other, PillarNE);
-		}
-		else if (PillarNW.ValidWisp(otherTag))
-		{
-			SpawnWisp(other, PillarNW);
-		}
-		else if (PillarSE.ValidWisp(otherTag))
-		{
-			SpawnWisp(other, PillarSE);
-		}
-		else if (PillarSW.ValidWisp(otherTag))
-		{
-			SpawnWisp(other, PillarSW);
-		}
-		else
-		{
-			if(TestWisp.CanSpawn())
-			{
-				SpawnWisp(other, TestWisp);
+			if (tempWisp.CanStartNewSpawnCycle())
+			{				
+				var tempPlayer = GameObject.Find("Player").transform;
+				
+				var tempPosition = new Vector3(tempPlayer.position.x, tempPlayer.position.y, tempPlayer.position.z);
+				var tempRotation = new Quaternion(tempPlayer.rotation.x, tempPlayer.rotation.y, tempPlayer.rotation.z, tempPlayer.rotation.w);
+				
+				var spawnPosition = tempPosition;
+				var spawnRotation = tempRotation;
+				
+				tempWisp.StartSpawning(3, spawnPosition, spawnRotation);
 			}
 		}
-	}
-	
-	/// <summary>
-	/// Spawns a wisp that travels toward the location of the wispData.
-	/// </summary>
-	/// <param name='other'> The collider </param>
-	/// <param name='wispData'> The wisp data. </param>
-	private void SpawnWisp(Collider other, WispData wispData)
-	{
-		var tempSpawn = other.gameObject.transform.position;
-		tempSpawn.y -= 2;
-		
-		var w = (GameObject) Instantiate(Resources.Load("Wisp"), tempSpawn, other.gameObject.transform.rotation);
-		var wisp = w.GetComponent<RandomWispMovement>();
-		
-		wisp.end = wispData.Location;
-		wispData.LastSpawn = Time.realtimeSinceStartup;
 	}
 	
 	/// <summary>
@@ -156,32 +83,128 @@ public class WispSpawner : MonoBehaviour
 	/// </summary>
 	private class WispData
 	{
-		private const int spawnDifference = 300;
+		private const int spawnCycleDifference = 300;
 		
 		public string Tag { get; private set; }
-		public Vector3 Location { get; set; }
-		public float LastSpawn { get; set; }
+		public Vector3 EndLocation { get; set; }
+		public float LastSpawnCycle { get; set; }
 		
-		public WispData(string tag)
+		private bool firstWisp;
+		private int wispsToSpawn;
+		private float lastSpawn;
+		private float spawnDelay = 5f;
+		private Vector3 spawnLocation;
+		private Quaternion spawnRotation;
+		
+		public WispData(string tag, int x, int z)
 		{
 			Tag = tag;
-			Location = new Vector3(0f, 0f, 0f);
-			LastSpawn = 0f;
+			CreateLocation(x, z);
+			LastSpawnCycle = 0f;
+			
+			wispsToSpawn = 0;
 		}
 		
-		public bool ValidWisp(string tag)
+		/// <summary>
+		/// Determines whether the wisp is allowed to start a new cycle of spawning.
+		/// </summary>
+		/// <returns>
+		/// <c>true</c> if this instance can spawn; otherwise, <c>false</c>.
+		/// </returns>
+		public bool CanStartNewSpawnCycle()
 		{
-			if (Tag.Equals(tag) && CanSpawn()) return true;
+			if (LastSpawnCycle == 0f) return true;	
+			if (Time.realtimeSinceStartup - LastSpawnCycle > spawnCycleDifference) return true;
 			
 			return false;
 		}
 		
-		public bool CanSpawn()
+		/// <summary>
+		/// Determines whether a spawning cycle is in progress..
+		/// </summary>
+		/// <returns>
+		/// <c>true</c> if this instance is spawning; otherwise, <c>false</c>.
+		/// </returns>
+		public bool SpawningCycleOngoing()
 		{
-			if (LastSpawn == 0f) return true;	
-			if (Time.realtimeSinceStartup - LastSpawn > spawnDifference) return true;
+			return wispsToSpawn > 0;
+		}
+		
+		/// <summary>
+		/// Starts a cycle of spawning.
+		/// </summary>
+		/// <param name='numberofWisps'> The amount of wisps to spawn for the cycle. </param>
+		/// <param name='newSpawnLocation'> The spawn location. </param>
+		/// <param name='newSpawnRotation'> The spawn rotation. </param>
+		public void StartSpawning(int numberofWisps, Vector3 newSpawnLocation, Quaternion newSpawnRotation)
+		{
+			spawnLocation.y = Terrain.activeTerrain.SampleHeight(spawnLocation) - 2;
+			
+			LastSpawnCycle = Time.realtimeSinceStartup;
+			
+			firstWisp = true;
+			wispsToSpawn = numberofWisps;
+			spawnLocation = newSpawnLocation;
+			spawnRotation = newSpawnRotation;
+			lastSpawn = Time.realtimeSinceStartup;
+		}
+	
+		/// <summary>
+		/// Spawns a wisp that travels toward the location of the wispData.
+		/// </summary>
+		/// <param name='wispData'> The wisp data. </param>
+		public void SpawnWisp()
+		{			
+			if (SpawnWispInCycle())
+			{
+				var w = (GameObject) Instantiate(Resources.Load("Wisp"), spawnLocation, spawnRotation);
+				var wisp = w.GetComponent<RandomWispMovement>();
+				
+				wisp.end = EndLocation;
+				
+				wispsToSpawn--;
+			}
+		}
+		
+		/// <summary>
+		/// Determines if it is time to spawn a wisp in the current cycle.
+		/// </summary>
+		/// <returns> 
+		/// <c>true</c> if iit is time; otherwise, <c>false</c>.
+		/// </returns>
+		private bool SpawnWispInCycle()
+		{
+			if (!SpawningCycleOngoing()) return false;
+			
+			if (firstWisp)
+			{
+				firstWisp = false; 
+				lastSpawn = Time.realtimeSinceStartup;
+				return true;
+			}
+			
+			if (Time.realtimeSinceStartup - lastSpawn > spawnDelay) 
+			{
+				lastSpawn = Time.realtimeSinceStartup; 
+				return true;
+			}
 			
 			return false;
+		}
+	
+		/// <summary>
+		/// Creates a location with the terrain's height based on the x and z coordinates.
+		/// </summary>
+		/// <returns> The location. </returns>
+		/// <param name='x'> The x-coordinate. </param>
+		/// <param name='z'> The z-coordinate. </param>
+		private void CreateLocation(int x, int z)
+		{
+			var tempVector = new Vector3(x, 0, z);
+			var terrainY = Terrain.activeTerrain.SampleHeight(tempVector) + heightFromTerrain;
+			tempVector.y = terrainY;
+			
+			EndLocation = tempVector;
 		}
 	}
 }
