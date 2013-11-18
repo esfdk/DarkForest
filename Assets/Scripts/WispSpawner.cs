@@ -43,7 +43,8 @@ public class WispSpawner : MonoBehaviour
 			var start = new Vector3(player.position.x, player.position.y, player.position.z + 2);
 			var w = (GameObject) Instantiate(Resources.Load("Wisp/Wisp"), start, player.rotation);
 			var wisp = w.GetComponent<RandomWispMovement>();
-			wisp.end = new Vector3(625, 2, 625);
+			var rosePosition = GameObject.Find("Rose").transform.position;
+			wisp.end = new Vector3(rosePosition.x, 2, rosePosition.z);
 			
 			AudioSource.PlayClipAtPoint((AudioClip) Resources.Load("Wisp/Wisp spawn"), start);
 			firstSound = false;
