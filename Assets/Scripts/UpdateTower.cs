@@ -44,7 +44,7 @@ public class UpdateTower : MonoBehaviour {
 		var towerTransform = GameObject.Find("Tower").transform;
 		var player = GameObject.Find("Player").transform;
 		
-		var newTowerPosition = new Vector3(0, 75, 0);
+		var newTowerPosition = new Vector3(0, 0, 0);
 		// Convert tower position to viewport points.
 		var towerViewportPoint = camera.WorldToViewportPoint(new Vector3(towerTransform.position.x, player.position.y, towerTransform.position.z));
 		
@@ -80,7 +80,7 @@ public class UpdateTower : MonoBehaviour {
 			newTowerPosition.z = newZ;
 		}
 		
-		var test = Terrain.activeTerrain.SampleHeight(newTowerPosition) + 70;
+		var test = Terrain.activeTerrain.SampleHeight(newTowerPosition) - 5;
 		newTowerPosition.y = test;
 		
 		towerTransform.position = newTowerPosition;
