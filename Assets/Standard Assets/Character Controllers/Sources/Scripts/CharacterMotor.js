@@ -19,28 +19,6 @@ var inputMoveDirection : Vector3 = Vector3.zero;
 @System.NonSerialized
 var inputJump : boolean = false;
 
-// Colours
-private var PurpleColor : Color32 = Color32(159, 0, 197, 255);
-
-// Skybox colors
-private var SkyboxBlack : Color32 = Color32 (110, 110, 110, 255);
-private var SkyboxBlue : Color32 = Color32 (120, 120, 140, 255);
-private var SkyboxRed : Color32 = Color32 (150, 130, 130, 255);
-private var SkyboxYellow : Color32 = Color32 (140, 140, 0, 255);
-private var SkyboxGreen : Color32 = Color32 (130, 150, 130, 255);
-private var SkyboxPurple : Color32 = Color32 (130, 0, 130, 255);
-
-// Fog colors
-private var FogBlack : Color32 = Color32 (5, 5, 5, 255);
-private var FogBlue : Color32 = Color32 (80, 80, 140, 255);
-private var FogRed : Color32 = Color32 (140, 80, 80, 255);
-private var FogYellow : Color32 = Color32 (125, 125, 0, 255);
-private var FogGreen : Color32 = Color32 (130, 150, 130, 255);
-private var FogPurple : Color32 = Color32 (140, 0, 140, 255);
-
-// Fix the name yourself! :D
-private var ChangeSpeed : float = 0.01;
-
 class CharacterMotorMovement {
 	// The maximum horizontal speed when moving
 	var maxForwardSpeed : float = 10.0;
@@ -339,39 +317,31 @@ private function UpdateFunction () {
     {
     	Application.Quit();
     }
-    
-    var pPos : Vector3 = GameObject.Find("Player").transform.position;
-	var xDist : float = pPos.x - spawnPoint.x;
-	var zDist : float = pPos.z - spawnPoint.z;
-	var tDist : float = Mathf.Sqrt(Mathf.Pow(xDist, 2) + 0 + Mathf.Pow(zDist, 2));
-	
-	if (tDist < 15) 		{ ChangeLight(0.3, Color.blue, SkyboxBlack, FogBlack); }
-	else if (tDist < 125) 	{ ChangeLight(0.4, Color.blue, SkyboxBlue, FogBlue); }
-	else if (tDist < 250) 	{ ChangeLight(0.5, PurpleColor, SkyboxPurple, FogPurple); }
-	else if (tDist < 375) 	{ ChangeLight(0.6, Color.red, SkyboxRed, FogRed); }
-	else if (tDist < 500) 	{ ChangeLight(0.7, Color.yellow, SkyboxYellow, FogYellow); }
-	else if (tDist < 625) 	{ ChangeLight(0.8, Color.green, SkyboxGreen, FogGreen); }
-}
-
-private function ChangeLight(targetLight : float, newColor : Color, skyboxColor : Color, fogColor : Color)
-{
-	var pTransform : Transform = GameObject.Find("Player").transform;
-	var light : Light = GameObject.Find("MainLight").light;
-	var tempColor : Color = Color.Lerp (light.color, newColor, ChangeSpeed);
-	
-	if (light.intensity > targetLight) { light.intensity -= ChangeSpeed; }
-	if (light.intensity < targetLight) { light.intensity += ChangeSpeed; }
-	
-	light.transform.rotation.eulerAngles.y = pTransform.rotation.eulerAngles.y;
-	light.color = tempColor;
-	
-	RenderSettings.fogColor = Color.Lerp(RenderSettings.fogColor, fogColor, ChangeSpeed);
-	RenderSettings.skybox.SetColor("_Tint", Color.Lerp(RenderSettings.skybox.GetColor("_Tint"), skyboxColor, ChangeSpeed));
 }
 
 public function Respawn()
 {
-	GameObject.Find("Player").transform.position = spawnPoint;
+	transform.position = spawnPoint;
+}
+
+public function OnTriggerEnter(other : Collider)
+{
+	// VERY basic swimming
+    if (other.gameObject.tag == "Water")
+    {
+        grounded = false;
+        movement.gravity = -5f;
+    }
+}
+ 
+public function OnTriggerExit(other : Collider)
+{
+	// VERY basic swimming
+    if (other.gameObject.tag == "Water")
+    {
+        grounded = true;
+        movement.gravity = 10f;
+    }
 }
 
 function FixedUpdate () {
