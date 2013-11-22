@@ -1,23 +1,21 @@
 ﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public class RandomWispMovement : MonoBehaviour {
 	
-	private bool endReached, wispDisappear = false;
+	private bool endReached = false;
 	private List<Vector3> travelPoints = new List<Vector3>();
-	private int nextPoint = 1;
-	private float pauseTimer;
-	private float despawnDistance = 15;
+	private float despawnDistance = 7;
 	private Vector3 start;
+	private Hashtable moveParams = new Hashtable();
 	
 	public float speed;
 	public Vector3 end = new Vector3(0, 3, 18);
-	public int pauseProbability = 10;
-	public float pauseLength = 1.0f;
 	
 	// Use this for initialization
 	void Start () 
-	{
+	{		
 		var tempStart = transform.position;
 		tempStart.y = Terrain.activeTerrain.SampleHeight(tempStart) + 1f;
 		start = tempStart;
@@ -48,37 +46,30 @@ public class RandomWispMovement : MonoBehaviour {
         }
 		
 		travelPoints.Add(end);
+		
+		moveParams.Add(iT.MoveTo.path, travelPoints.ToArray());
+		moveParams.Add(iT.MoveTo.time, dist * 2);
+		moveParams.Add(iT.MoveTo.easetype, "linear");
+		moveParams.Add(iT.MoveTo.oncomplete, "EndHasBeenReached");
+		
+		iTween.MoveTo(this.gameObject, moveParams);
+	}
+	
+	void EndHasBeenReached()
+	{
+		endReached = true;
+	}
+	
+	void DestroyWisp()
+	{
+		Destroy (this);
 	}
 	
 	// Update is called once per frame
 	void Update () 
-	{
-		if(pauseTimer > 0)
-		{
-			pauseTimer -= Time.deltaTime;
-			return;
-		}
-		
-		if(!endReached)
-		{
-			float step = speed * Time.deltaTime;
-			transform.position = Vector3.MoveTowards(transform.position, travelPoints[nextPoint], step);
-			
-			if(transform.position.Equals(travelPoints[nextPoint]))
-			{
-				if(Random.Range(0, 100) <= pauseProbability)
-				{
-					pauseTimer = pauseLength;	
-				}
-				
-				nextPoint++;
-			}
-			
-			endReached =  transform.position.Equals(end);
-		}
-		
+	{		
 		// If the end point is reached, but the wisp is not set to disappear yet ...
-		if(endReached && !wispDisappear)
+		if(endReached)
 		{
 			var pPos = GameObject.Find("Player").transform.position;
 			
@@ -89,21 +80,18 @@ public class RandomWispMovement : MonoBehaviour {
 				var tempEnd = end;
 				tempEnd.y = Terrain.activeTerrain.SampleHeight(tempEnd) - 2;
 				
-				travelPoints[nextPoint] = tempEnd;
-				end = tempEnd;
+				var dist = Vector3.Distance(end, tempEnd);
 				
-				// Make sure this part of code isn't called again, but force the wisp
-				// to move again.
-				wispDisappear = true;
+				moveParams = new Hashtable();
+				moveParams.Add(iT.MoveTo.path, new Vector3[] {end, tempEnd});
+				moveParams.Add(iT.MoveTo.time, dist * 2);
+				moveParams.Add(iT.MoveTo.easetype, "linear");
+				moveParams.Add(iT.MoveTo.oncomplete, "DestroyWisp");
+				
+				iTween.MoveTo(this.gameObject, moveParams);
+				
 				endReached = false;
 			}
-		}
-		
-		// If the wisp has gone underground ...
-		if(endReached && wispDisappear)
-		{
-			// .. destroy it.
-			Destroy(this);
 		}
 	}
 	

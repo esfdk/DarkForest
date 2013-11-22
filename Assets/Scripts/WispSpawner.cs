@@ -37,7 +37,7 @@ public class WispSpawner : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		if(Time.realtimeSinceStartup < 1 && Time.realtimeSinceStartup > 0.5 && firstSound)
+		if(Time.realtimeSinceStartup < 1f && Time.realtimeSinceStartup > 0f && firstSound)
 		{
 			var player = GameObject.Find("Player").transform;
 			var start = new Vector3(player.position.x, player.position.y, player.position.z + 2);
