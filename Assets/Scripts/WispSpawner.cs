@@ -38,7 +38,7 @@ public class WispSpawner : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () 
-	{		
+	{
 		foreach (var wisp in WispList)
 		{
 			if (wisp.SpawningCycleOngoing())
