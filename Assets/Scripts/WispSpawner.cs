@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class WispSpawner : MonoBehaviour 
 {	
+	private Transform player;
+	
 	private System.Collections.Generic.List<WispData> WispList;
 	
 	/// <summary>
@@ -13,7 +15,9 @@ public class WispSpawner : MonoBehaviour
 	
 	// Use this for initialization
 	void Start () 
-	{
+	{ 
+		player = GameObject.Find("Player").transform;
+		
 		WispList = new System.Collections.Generic.List<WispData>();
 		
 		WispList.Add(new WispData("GateEast", 765, 712));
@@ -32,23 +36,9 @@ public class WispSpawner : MonoBehaviour
 		WispList.Add(new WispData("Statues", 420, 660));
 	}
 	
-	private bool firstSound = true;
-	
 	// Update is called once per frame
 	void Update () 
-	{
-		if(Time.realtimeSinceStartup < 1f && Time.realtimeSinceStartup > 0f && firstSound)
-		{
-			var player = GameObject.Find("Player").transform;
-			var start = new Vector3(player.position.x, player.position.y, player.position.z + 2);
-			var w = (GameObject) Instantiate(Resources.Load("Wisp/Wisp"), start, player.rotation);
-			var wisp = w.GetComponent<RandomWispMovement>();
-			var rosePosition = GameObject.Find("Rose").transform.position;
-			wisp.end = new Vector3(rosePosition.x, 2, rosePosition.z);
-			
-			AudioSource.PlayClipAtPoint((AudioClip) Resources.Load("Wisp/Wisp spawn"), start);
-			firstSound = false;
-		}
+	{		
 		foreach (var wisp in WispList)
 		{
 			if (wisp.SpawningCycleOngoing())
@@ -67,10 +57,8 @@ public class WispSpawner : MonoBehaviour
 		{
 			if (tempWisp.CanStartNewSpawnCycle())
 			{				
-				var tempPlayer = GameObject.Find("Player").transform;
-				
-				var tempPosition = new Vector3(tempPlayer.position.x, tempPlayer.position.y, tempPlayer.position.z);
-				var tempRotation = new Quaternion(tempPlayer.rotation.x, tempPlayer.rotation.y, tempPlayer.rotation.z, tempPlayer.rotation.w);
+				var tempPosition = new Vector3(player.position.x, player.position.y, player.position.z);
+				var tempRotation = new Quaternion(player.rotation.x, player.rotation.y, player.rotation.z, player.rotation.w);
 				
 				var spawnPosition = tempPosition;
 				var spawnRotation = tempRotation;

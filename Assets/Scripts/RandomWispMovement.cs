@@ -47,11 +47,13 @@ public class RandomWispMovement : MonoBehaviour {
 		
 		travelPoints.Add(end);
 		
+		// Create the params used by iTween.
 		moveParams.Add(iT.MoveTo.path, travelPoints.ToArray());
 		moveParams.Add(iT.MoveTo.time, dist * 2);
 		moveParams.Add(iT.MoveTo.easetype, "linear");
 		moveParams.Add(iT.MoveTo.oncomplete, "EndHasBeenReached");
 		
+		// Move the wisp with iTween.
 		iTween.MoveTo(this.gameObject, moveParams);
 	}
 	
@@ -82,12 +84,14 @@ public class RandomWispMovement : MonoBehaviour {
 				
 				var dist = Vector3.Distance(end, tempEnd);
 				
+				// Create the params used by iTween.
 				moveParams = new Hashtable();
 				moveParams.Add(iT.MoveTo.path, new Vector3[] {end, tempEnd});
 				moveParams.Add(iT.MoveTo.time, dist * 2);
 				moveParams.Add(iT.MoveTo.easetype, "linear");
 				moveParams.Add(iT.MoveTo.oncomplete, "DestroyWisp");
 				
+				// Move the wisp with iTween.
 				iTween.MoveTo(this.gameObject, moveParams);
 				
 				endReached = false;

@@ -176,14 +176,14 @@ private var tr : Transform;
 private var controller : CharacterController;
 
 private var spawnPoint : Vector3;
+private var spawnRotation : Vector3;
 
 function Awake () {
 	controller = GetComponent (CharacterController);
 	tr = transform;
 	
-	spawnPoint = GameObject.Find("Player").transform.position;
-	
-	Screen.showCursor = false;
+	spawnPoint = this.transform.position;
+	spawnRotation = this.transform.rotation.eulerAngles;
 }
 
 private function UpdateFunction () {
@@ -321,7 +321,8 @@ private function UpdateFunction () {
 
 public function Respawn()
 {
-	transform.position = spawnPoint;
+	this.transform.position = spawnPoint;
+	this.transform.rotation.eulerAngles = spawnRotation;
 }
 
 public function OnTriggerEnter(other : Collider)

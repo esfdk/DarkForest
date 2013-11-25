@@ -2,10 +2,20 @@
 using System.Collections;
 
 public class UpdateTower : MonoBehaviour {
-
+	
+	private GameObject player;
+	
+	private Camera gameCamera;
+	
 	private float towerAngle = 0.0f;
 	private float distanceToTower = 100f;
 	private float change = 0.005f;
+	
+	void Start()
+	{
+		player = GameObject.Find("Player");
+		gameCamera = GameObject.Find("Main Camera").camera;
+	}
 	
 	// Update is called once per frame
 	void Update () 
@@ -22,8 +32,7 @@ public class UpdateTower : MonoBehaviour {
 	private void CheckForPlayerCollision()
 	{
 		// Determine the distance to the player.
-		var player = GameObject.Find("Player");
-		var tPos = GameObject.Find("Tower").transform.position;
+		var tPos = this.transform.position;
 		var xDist = player.transform.position.x - tPos.x;
 		var zDist = player.transform.position.z - tPos.z;
 		var tDist = Mathf.Sqrt(Mathf.Pow(xDist, 2) + 0 + Mathf.Pow(zDist, 2));
@@ -40,41 +49,39 @@ public class UpdateTower : MonoBehaviour {
 	/// </summary>
 	private void MoveTower()
 	{
-		var camera = GameObject.Find("Main Camera").camera;
-		var towerTransform = GameObject.Find("Tower").transform;
-		var player = GameObject.Find("Player").transform;
+		var towerTransform = this.transform;
 		
 		var newTowerPosition = new Vector3(0, 0, 0);
 		// Convert tower position to viewport points.
-		var towerViewportPoint = camera.WorldToViewportPoint(new Vector3(towerTransform.position.x, player.position.y, towerTransform.position.z));
+		var towerViewportPoint = gameCamera.WorldToViewportPoint(new Vector3(towerTransform.position.x, player.transform.position.y, towerTransform.position.z));
 		
 		// If tower is outside the camera on the right
 		if (towerViewportPoint.x >= 1f)
 		{ 
 			// Calculate the world points that correspond to the edge of the camera
-			var tempVector = camera.ViewportToWorldPoint(new Vector3(towerViewportPoint.x - change, towerViewportPoint.y, towerViewportPoint.z));
+			var tempVector = gameCamera.ViewportToWorldPoint(new Vector3(towerViewportPoint.x - change, towerViewportPoint.y, towerViewportPoint.z));
 			newTowerPosition = tempVector;
 			
 			// Calculate a new angle for the tower
-			var newAngle = ((Mathf.Rad2Deg * Mathf.Atan2(tempVector.x - player.position.x, tempVector.z - player.position.z)) + 360) % 360;
+			var newAngle = ((Mathf.Rad2Deg * Mathf.Atan2(tempVector.x - player.transform.position.x, tempVector.z - player.transform.position.z)) + 360) % 360;
 			towerAngle = newAngle;
 		}
 		// If tower is outside the camera on the left
 		else if (towerViewportPoint.x <= 0f)
 		{
 			// Calculate the world points that correspond to the edge of the camera
-			var tempVector = camera.ViewportToWorldPoint(new Vector3(towerViewportPoint.x + change, towerViewportPoint.y, towerViewportPoint.z));
+			var tempVector = gameCamera.ViewportToWorldPoint(new Vector3(towerViewportPoint.x + change, towerViewportPoint.y, towerViewportPoint.z));
 			newTowerPosition = tempVector;
 			
 			// Calculate a new angle for the tower
-			var newAngle = ((Mathf.Rad2Deg * Mathf.Atan2(tempVector.x - player.position.x, tempVector.z - player.position.z)) + 360) % 360;
+			var newAngle = ((Mathf.Rad2Deg * Mathf.Atan2(tempVector.x - player.transform.position.x, tempVector.z - player.transform.position.z)) + 360) % 360;
 			towerAngle = newAngle;
 		}
 		else 
 		{
 			// Fix the position of the tower based on its angle.
-			var newX = player.position.x + distanceToTower * Mathf.Sin(towerAngle * Mathf.Deg2Rad);
-			var newZ = player.position.z + distanceToTower * Mathf.Cos(towerAngle * Mathf.Deg2Rad);
+			var newX = player.transform.position.x + distanceToTower * Mathf.Sin(towerAngle * Mathf.Deg2Rad);
+			var newZ = player.transform.position.z + distanceToTower * Mathf.Cos(towerAngle * Mathf.Deg2Rad);
 			
 			newTowerPosition.x = newX;
 			newTowerPosition.z = newZ;
@@ -92,7 +99,7 @@ public class UpdateTower : MonoBehaviour {
 	private void ChangeDistanceToTower()
 	{
 		// Get player distance from the middle of the map.
-		var pPos = GameObject.Find("Player").transform.position;
+		var pPos = player.transform.position;
 		var xDist = pPos.x - 625;
 		var zDist = pPos.z - 625;
 		var tDist = Mathf.Sqrt(Mathf.Pow(xDist, 2) + 0 + Mathf.Pow(zDist, 2));
