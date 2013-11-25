@@ -4,9 +4,13 @@ using System.Collections;
 public class UpdateTower : MonoBehaviour {
 	
 	private GameObject player;
+	private GameObject colliders;
 	
 	private Camera gameCamera;
 	
+	private bool locked = false;
+	
+	private float distanceToMid = 625f;
 	private float towerAngle = 0.0f;
 	private float distanceToTower = 100f;
 	private float change = 0.005f;
@@ -15,6 +19,10 @@ public class UpdateTower : MonoBehaviour {
 	{
 		player = GameObject.Find("Player");
 		gameCamera = GameObject.Find("Main Camera").camera;
+		
+		
+		colliders = GameObject.FindGameObjectWithTag("Testshit");
+		colliders.SetActive(false);
 	}
 	
 	// Update is called once per frame
@@ -35,10 +43,10 @@ public class UpdateTower : MonoBehaviour {
 		var tPos = this.transform.position;
 		var xDist = player.transform.position.x - tPos.x;
 		var zDist = player.transform.position.z - tPos.z;
-		var tDist = Mathf.Sqrt(Mathf.Pow(xDist, 2) + 0 + Mathf.Pow(zDist, 2));
+		var tDist = Mathf.Sqrt(Mathf.Pow(xDist, 2f) + 0f + Mathf.Pow(zDist, 2f));
 		
 		// If the player is close enough to the tower, respawn the player.
-		if (tDist <= 10)
+		if (tDist <= 10f)
 		{
 			player.SendMessage("Respawn");
 		}
@@ -51,12 +59,12 @@ public class UpdateTower : MonoBehaviour {
 	{
 		var towerTransform = this.transform;
 		
-		var newTowerPosition = new Vector3(0, 0, 0);
+		var newTowerPosition = new Vector3(0f, 0f, 0f);
 		// Convert tower position to viewport points.
 		var towerViewportPoint = gameCamera.WorldToViewportPoint(new Vector3(towerTransform.position.x, player.transform.position.y, towerTransform.position.z));
-		
+
 		// If tower is outside the camera on the right
-		if (towerViewportPoint.x >= 1f)
+		if (towerViewportPoint.x >= 1f && locked == false)
 		{ 
 			// Calculate the world points that correspond to the edge of the camera
 			var tempVector = gameCamera.ViewportToWorldPoint(new Vector3(towerViewportPoint.x - change, towerViewportPoint.y, towerViewportPoint.z));
@@ -67,10 +75,11 @@ public class UpdateTower : MonoBehaviour {
 			towerAngle = newAngle;
 		}
 		// If tower is outside the camera on the left
-		else if (towerViewportPoint.x <= 0f)
+		else if ((towerViewportPoint.x <= 0f || towerViewportPoint.z < 0f)
+					&& locked == false)
 		{
 			// Calculate the world points that correspond to the edge of the camera
-			var tempVector = gameCamera.ViewportToWorldPoint(new Vector3(towerViewportPoint.x + change, towerViewportPoint.y, towerViewportPoint.z));
+			var tempVector = gameCamera.ViewportToWorldPoint(new Vector3(towerViewportPoint.x + change, towerViewportPoint.y, Mathf.Abs(towerViewportPoint.z)));
 			newTowerPosition = tempVector;
 			
 			// Calculate a new angle for the tower
@@ -87,7 +96,7 @@ public class UpdateTower : MonoBehaviour {
 			newTowerPosition.z = newZ;
 		}
 		
-		var test = Terrain.activeTerrain.SampleHeight(newTowerPosition) - 5;
+		var test = Terrain.activeTerrain.SampleHeight(newTowerPosition) - 5f;
 		newTowerPosition.y = test;
 		
 		towerTransform.position = newTowerPosition;
@@ -100,21 +109,38 @@ public class UpdateTower : MonoBehaviour {
 	{
 		// Get player distance from the middle of the map.
 		var pPos = player.transform.position;
-		var xDist = pPos.x - 625;
-		var zDist = pPos.z - 625;
-		var tDist = Mathf.Sqrt(Mathf.Pow(xDist, 2) + 0 + Mathf.Pow(zDist, 2));
+		var xDist = pPos.x - distanceToMid;
+		var zDist = pPos.z - distanceToMid;
+		var tDist = Mathf.Sqrt(Mathf.Pow(xDist, 2f) + 0f + Mathf.Pow(zDist, 2f));
 		
-		var newDistance = 625 - tDist;
+		var newDistance = distanceToMid - tDist;
 		
 		// Change distanceToTower if the player is approaching the edge of the map.
 		if (newDistance < 100)
 		{
-			if (newDistance < 0) 	distanceToTower = 0;
-			else 					distanceToTower = newDistance;
+			if (newDistance < 0)
+			{
+				distanceToTower = 0;
+			}
+			else
+			{
+				distanceToTower = newDistance;
+			}
+			
+			locked = true;
+
+			this.transform.parent = null;
+			colliders.SetActive(true);
+			var fuckyouunity = this.GetComponent<UpdateTower>();
+			fuckyouunity.enabled = false;
 		}
 		else
 		{
 			distanceToTower = 100;
+			locked = false;
+			
+			colliders.SetActive(false);
+			this.transform.parent = player.transform;
 		}
 	}
 }
