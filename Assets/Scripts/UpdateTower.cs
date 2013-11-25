@@ -4,7 +4,6 @@ using System.Collections;
 public class UpdateTower : MonoBehaviour {
 	
 	private GameObject player;
-	private GameObject colliders;
 	
 	private Camera gameCamera;
 	
@@ -19,10 +18,6 @@ public class UpdateTower : MonoBehaviour {
 	{
 		player = GameObject.Find("Player");
 		gameCamera = GameObject.Find("Main Camera").camera;
-		
-		
-		colliders = GameObject.FindGameObjectWithTag("Testshit");
-		colliders.SetActive(false);
 	}
 	
 	// Update is called once per frame
@@ -128,19 +123,11 @@ public class UpdateTower : MonoBehaviour {
 			}
 			
 			locked = true;
-
-			this.transform.parent = null;
-			colliders.SetActive(true);
-			var fuckyouunity = this.GetComponent<UpdateTower>();
-			fuckyouunity.enabled = false;
 		}
 		else
 		{
 			distanceToTower = 100;
 			locked = false;
-			
-			colliders.SetActive(false);
-			this.transform.parent = player.transform;
 		}
 	}
 }
