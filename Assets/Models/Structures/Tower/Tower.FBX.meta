@@ -1,13 +1,30 @@
 fileFormatVersion: 2
-guid: 8d5059719de67484bb63c0b4bc937f4e
+guid: 00731feaf7277d6478f2b292235d6286
 ModelImporter:
   serializedVersion: 15
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
+    100000: Cylinder002
+    100002: Cylinder003
+    100004: SpiralStair003
+    100006: //RootNode
+    100008: Tube001
+    400000: Cylinder002
+    400002: Cylinder003
+    400004: SpiralStair003
+    400006: //RootNode
+    400008: Tube001
+    2300000: Cylinder002
+    2300002: Cylinder003
+    2300004: SpiralStair003
+    2300006: Tube001
+    3300000: Cylinder002
+    3300002: Cylinder003
+    3300004: SpiralStair003
+    3300006: Tube001
     4300000: Cylinder002
+    4300002: Tube001
+    4300004: SpiralStair003
+    4300006: Cylinder003
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -16,11 +33,13 @@ ModelImporter:
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
+    optimizeGameObjects: 0
     animationCompression: 1
     animationRotationError: .5
     animationPositionError: .5
     animationScaleError: .5
     animationWrapMode: 0
+    extraExposedTransformPaths: []
     clipAnimations: []
     isReadable: 1
   meshes:
@@ -48,7 +67,6 @@ ModelImporter:
   humanDescription:
     human: []
     skeleton: []
-    handles: []
     armTwist: .5
     foreArmTwist: .5
     upperLegTwist: .5
@@ -58,6 +76,5 @@ ModelImporter:
     feetSpacing: 0
     rootMotionBoneName: 
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  additionalBone: 1
   animationType: 2
   userData: 
