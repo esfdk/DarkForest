@@ -6,7 +6,7 @@ TagManager:
   - Wisp
   - GateEast
   - Church
-  - TowerRoseBox
+  - TowerCollider
   - Tower
   - Hill
   - ClearingNorth
@@ -21,7 +21,7 @@ TagManager:
   - Well
   - MenuLight
   - MenuObjects
-  - Testshit
+  - Water
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
