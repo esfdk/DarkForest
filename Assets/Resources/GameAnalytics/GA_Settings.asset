@@ -11,11 +11,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d0c0342116464e26abb476a494c827a, type: 3}
   m_Name: GA_Settings
   m_EditorClassIdentifier: 
-  TotalMessagesSubmitted: 71
-  TotalMessagesFailed: 0
-  DesignMessagesSubmitted: 36
-  DesignMessagesFailed: 0
-  QualityMessagesSubmitted: 35
+  TotalMessagesSubmitted: 171
+  TotalMessagesFailed: 9
+  DesignMessagesSubmitted: 126
+  DesignMessagesFailed: 9
+  QualityMessagesSubmitted: 45
   QualityMessagesFailed: 0
   BusinessMessagesSubmitted: 0
   BusinessMessagesFailed: 0
@@ -25,7 +25,7 @@ MonoBehaviour:
   TrackTarget: {fileID: 0}
   GameKey: febb1199d3a5997a83b8b68ca7b8a57f
   SecretKey: e92457cfc72861963d0738dbcff78ee3e33593fa
-  ApiKey: 
+  ApiKey: 1bbe28ef274e8dd288da41175acb8288e073f746
   Build: 0.1
   DebugMode: 1
   SendExampleGameDataToMyGame: 0
@@ -33,11 +33,12 @@ MonoBehaviour:
   AllowRoaming: 0
   ArchiveData: 0
   NewSessionOnResume: 1
+  AutoSubmitUserInfo: 1
   HeatmapGridSize: {x: 1, y: 1, z: 1}
   CustomUserID: 0
   SubmitInterval: 10
   InternetConnectivity: 1
-  CurrentInspectorState: 2
+  CurrentInspectorState: 4
   ClosedHints: 
   DisplayHints: 0
   DisplayHintsScrollState: {x: 0, y: 0}

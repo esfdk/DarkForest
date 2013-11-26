@@ -47,7 +47,7 @@ public class GA_Settings : ScriptableObject
 	/// The version of the GA Unity Wrapper plugin
 	/// </summary>
 	[HideInInspector]
-	public static string VERSION = "0.5.1";
+	public static string VERSION = "0.5.3";
 	
 	#endregion
 	
@@ -82,9 +82,10 @@ public class GA_Settings : ScriptableObject
 	public bool SendExampleGameDataToMyGame = false;
 	public bool RunInEditorPlayMode = true;
 	
-	public bool AllowRoaming = false;
-	public bool ArchiveData = false;
+	public bool AllowRoaming = true;
+	public bool ArchiveData = true;
 	public bool NewSessionOnResume = true;
+	public bool AutoSubmitUserInfo = true;
 	public Vector3 HeatmapGridSize = Vector3.one;
 
 	//bytes
@@ -238,6 +239,16 @@ public class GA_Settings : ScriptableObject
 	{
 		#if !UNITY_EDITOR
 		
+		string device = SystemInfo.deviceModel;
+		int i = device.Length - 1;
+		int io = 0;
+		while (int.TryParse(device[i].ToString(), out io) || device[i].Equals(',') || device[i].Equals('.'))
+		{
+			i--;
+		}
+		device = device.Substring(0, i + 1);
+		Debug.Log("DEVICE: " + device);
+		
 		string os = "";
 		string[] osSplit = SystemInfo.operatingSystem.Split(' ');
 		if (osSplit.Length > 0)
@@ -252,7 +263,7 @@ public class GA_Settings : ScriptableObject
 			string iOSid = GetUniqueIDiOS();
 			if (iOSid != null && iOSid != string.Empty)
 			{
-				GA.API.User.NewUser(GA_User.Gender.Unknown, null, null, iOSid, null, GA.API.GenericInfo.GetSystem(), SystemInfo.deviceModel, os, SystemInfo.operatingSystem, "GA Unity SDK " + VERSION);
+				GA.API.User.NewUser(GA_User.Gender.Unknown, null, null, iOSid, null, AutoSubmitUserInfo?GA.API.GenericInfo.GetSystem():null, AutoSubmitUserInfo?device:null, AutoSubmitUserInfo?os:null, AutoSubmitUserInfo?SystemInfo.operatingSystem:null, "GA Unity SDK " + VERSION);
 			}
 		}
 		catch
@@ -271,7 +282,7 @@ public class GA_Settings : ScriptableObject
 					AndroidJavaClass cls_AndroidID = new AndroidJavaClass(ANDROID_CLASS_NAME + ".GA_Android");
 					
 					string androidID = cls_AndroidID.CallStatic<string>("GetDeviceId");
-					GA.API.User.NewUser(GA_User.Gender.Unknown, null, null, null, androidID, GA.API.GenericInfo.GetSystem(), SystemInfo.deviceModel, os, SystemInfo.operatingSystem, "GA Unity SDK " + VERSION);
+					GA.API.User.NewUser(GA_User.Gender.Unknown, null, null, null, androidID, AutoSubmitUserInfo?GA.API.GenericInfo.GetSystem():null, AutoSubmitUserInfo?device:null, AutoSubmitUserInfo?os:null, AutoSubmitUserInfo?SystemInfo.operatingSystem:null, "GA Unity SDK " + VERSION);
 				}
 			}
 		}
@@ -280,11 +291,11 @@ public class GA_Settings : ScriptableObject
 		
 		#elif UNITY_FLASH && !UNITY_EDITOR
 		
-		GA.API.User.NewUser(GA_User.Gender.Unknown, null, null, null, null, GA.API.GenericInfo.GetSystem(), "Flash", os, SystemInfo.operatingSystem, "GA Unity SDK " + VERSION);
+		GA.API.User.NewUser(GA_User.Gender.Unknown, null, null, null, null, AutoSubmitUserInfo?GA.API.GenericInfo.GetSystem():null, "Flash", AutoSubmitUserInfo?os:null, AutoSubmitUserInfo?SystemInfo.operatingSystem:null, "GA Unity SDK " + VERSION);
 		
 		#elif !UNITY_EDITOR
 		
-		GA.API.User.NewUser(GA_User.Gender.Unknown, null, null, null, null, GA.API.GenericInfo.GetSystem(), SystemInfo.deviceModel, os, SystemInfo.operatingSystem, "GA Unity SDK " + VERSION);
+		GA.API.User.NewUser(GA_User.Gender.Unknown, null, null, null, null, AutoSubmitUserInfo?GA.API.GenericInfo.GetSystem():null, AutoSubmitUserInfo?device:null, AutoSubmitUserInfo?os:null, AutoSubmitUserInfo?SystemInfo.operatingSystem:null, "GA Unity SDK " + VERSION);
 		
 		#endif
 	}
