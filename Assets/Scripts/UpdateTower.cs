@@ -30,7 +30,7 @@ public class UpdateTower : MonoBehaviour {
 	{
 		ChangeDistanceToTower();
 		MoveTower();
-		CheckForPlayerCollision();
+		//CheckForPlayerCollision();
 	}
 	
 	/// <summary>
@@ -57,14 +57,16 @@ public class UpdateTower : MonoBehaviour {
 	/// </summary>
 	private void MoveTower()
 	{
+		if (locked) return;
+
 		var towerTransform = this.transform;
 		
-		var newTowerPosition = new Vector3(0f, 0f, 0f);
+		var newTowerPosition = towerTransform.position;
 		// Convert tower position to viewport points.
 		var towerViewportPoint = gameCamera.WorldToViewportPoint(new Vector3(towerTransform.position.x, player.transform.position.y, towerTransform.position.z));
 
 		// If tower is outside the camera on the right
-		if (towerViewportPoint.x >= 1f && locked == false)
+		if (towerViewportPoint.x >= 1f)
 		{ 
 			// Calculate the world points that correspond to the edge of the camera
 			var tempVector = gameCamera.ViewportToWorldPoint(new Vector3(towerViewportPoint.x - change, towerViewportPoint.y, towerViewportPoint.z));
@@ -75,8 +77,7 @@ public class UpdateTower : MonoBehaviour {
 			towerAngle = newAngle;
 		}
 		// If tower is outside the camera on the left
-		else if ((towerViewportPoint.x <= 0f || towerViewportPoint.z < 0f)
-					&& locked == false)
+		else if ((towerViewportPoint.x <= 0f || towerViewportPoint.z < 0f))
 		{
 			// Calculate the world points that correspond to the edge of the camera
 			var tempVector = gameCamera.ViewportToWorldPoint(new Vector3(towerViewportPoint.x + change, towerViewportPoint.y, Mathf.Abs(towerViewportPoint.z)));
@@ -86,7 +87,7 @@ public class UpdateTower : MonoBehaviour {
 			var newAngle = ((Mathf.Rad2Deg * Mathf.Atan2(tempVector.x - player.transform.position.x, tempVector.z - player.transform.position.z)) + 360) % 360;
 			towerAngle = newAngle;
 		}
-		else 
+		else
 		{
 			// Fix the position of the tower based on its angle.
 			var newX = player.transform.position.x + distanceToTower * Mathf.Sin(towerAngle * Mathf.Deg2Rad);
@@ -96,9 +97,9 @@ public class UpdateTower : MonoBehaviour {
 			newTowerPosition.z = newZ;
 		}
 		
-		var test = Terrain.activeTerrain.SampleHeight(newTowerPosition) - 5f;
+		var test = Terrain.activeTerrain.SampleHeight(newTowerPosition) - 1f;
 		newTowerPosition.y = test;
-		
+
 		towerTransform.position = newTowerPosition;
 	}
 	
@@ -114,6 +115,8 @@ public class UpdateTower : MonoBehaviour {
 		var tDist = Mathf.Sqrt(Mathf.Pow(xDist, 2f) + 0f + Mathf.Pow(zDist, 2f));
 		
 		var newDistance = distanceToMid - tDist;
+
+		Debug.Log(locked);
 		
 		// Change distanceToTower if the player is approaching the edge of the map.
 		if (newDistance < 100)
@@ -128,11 +131,20 @@ public class UpdateTower : MonoBehaviour {
 			}
 			
 			locked = true;
+
+			if (this.transform.parent != null)
+			{
+				var newPos = GameObject.Find("Ground").transform.TransformPoint(this.transform.position);
+				this.transform.parent = null;
+				this.transform.position = newPos;
+			}
 		}
 		else
 		{
 			distanceToTower = 100;
 			locked = false;
+
+			if (this.transform.parent == null) this.transform.parent = player.transform;
 		}
 	}
 }
