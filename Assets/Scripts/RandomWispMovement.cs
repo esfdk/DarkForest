@@ -13,7 +13,9 @@ public class RandomWispMovement : MonoBehaviour {
 	public float speed;
 	public Vector3 end = new Vector3(0, 3, 18);
 	
-	// Use this for initialization
+	/// <summary>
+	/// Start this instance.
+	/// </summary>
 	void Start () 
 	{		
 		var tempStart = transform.position;
@@ -21,17 +23,18 @@ public class RandomWispMovement : MonoBehaviour {
 		start = tempStart;
 		
 		var dist = Vector3.Distance(start, end);
-
         var numberOfSteps = dist / speed;
 
         travelPoints.Add(start);
 
+		// Create the initial points of the path.
         for (var i = 0; i < numberOfSteps; i++)
         {
             var current = travelPoints[i];
             travelPoints.Add(Vector3.MoveTowards(current, end, speed));
         }
 
+		// Randomizes each step of the path.
         for (var i = 1; i <= numberOfSteps; i++)
         {
 			while(true)
@@ -55,16 +58,6 @@ public class RandomWispMovement : MonoBehaviour {
 		
 		// Move the wisp with iTween.
 		iTween.MoveTo(this.gameObject, moveParams);
-	}
-	
-	void EndHasBeenReached()
-	{
-		endReached = true;
-	}
-	
-	void DestroyWisp()
-	{
-		Destroy (this);
 	}
 	
 	// Update is called once per frame
@@ -98,26 +91,52 @@ public class RandomWispMovement : MonoBehaviour {
 			}
 		}
 	}
-	
-	Vector3 RandomizeVectorPosition(Vector3 v)
+
+	/// <summary>
+	/// Tells the wisp that the end has been reached.
+	/// </summary>
+	void EndHasBeenReached()
+	{
+		endReached = true;
+	}
+
+	/// <summary>
+	/// Destroys the wisp.
+	/// </summary>
+	void DestroyWisp()
+	{
+		Destroy (this);
+	}
+
+	/// <summary>
+	/// Randomizes the given vector position.
+	/// </summary>
+	/// <returns> A randomized vector. </returns>
+	/// <param name="vector"> The vector to randomize. </param>
+	Vector3 RandomizeVectorPosition(Vector3 vector)
 	{	
-		var newX = Random.Range(v.x - 1f, v.x + 1f);
-		var newY = Random.Range(v.y - 1f, v.y + 1f);
-		var newZ = Random.Range(v.z - 1f, v.z + 1f);
+		var newX = Random.Range(vector.x - 1f, vector.x + 1f);
+		var newY = Random.Range(vector.y - 1f, vector.y + 1f);
+		var newZ = Random.Range(vector.z - 1f, vector.z + 1f);
 		
-		var vector = new Vector3(newX, newY, newZ);
+		var newVector = new Vector3(newX, newY, newZ);
 		
-		var ty = Terrain.activeTerrain.SampleHeight(vector);
+		var ty = Terrain.activeTerrain.SampleHeight(newVector);
 		
-		if(vector.y < ty)
+		if(newVector.y < ty)
 		{
-			vector.y = ty + 0.9f;
+			newVector.y = ty + 0.9f;
 		}
 		
-		
-		return vector;
+		return newVector;
 	}
-	
+
+	/// <summary>
+	/// Sets the end position for the wisp.
+	/// </summary>
+	/// <param name="x">The x coordinate.</param>
+	/// <param name="y">The y coordinate.</param>
+	/// <param name="z">The z coordinate.</param>
 	void SetEnd(float x, float y, float z)
 	{
 		end.x = x;

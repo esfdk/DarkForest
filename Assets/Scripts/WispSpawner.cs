@@ -12,12 +12,15 @@ public class WispSpawner : MonoBehaviour
 	/// Constant height from terrain. (used by the WispData class)
 	/// </summary>
 	private const int heightFromTerrain = 3;
-	
-	// Use this for initialization
+
+	/// <summary>
+	/// Start this instance.
+	/// </summary>
 	void Start () 
 	{ 
 		player = GameObject.Find("Player").transform;
-		
+
+		// Create the wisp locations.
 		WispList = new System.Collections.Generic.List<WispData>();
 		
 		WispList.Add(new WispData("GateEast", 765, 712));
@@ -35,8 +38,10 @@ public class WispSpawner : MonoBehaviour
 		
 		WispList.Add(new WispData("Statues", 420, 660));
 	}
-	
-	// Update is called once per frame
+
+	/// <summary>
+	/// Update this instance (called once per frame).
+	/// </summary>
 	void Update () 
 	{
 		foreach (var wisp in WispList)
@@ -47,7 +52,11 @@ public class WispSpawner : MonoBehaviour
 			}
 		}
 	}
-	
+
+	/// <summary>
+	/// Raises the trigger enter event.
+	/// </summary>
+	/// <param name="other"> The object being collided with. </param>
 	void OnTriggerEnter(Collider other) 
 	{	
 		var otherTag = other.gameObject.tag;
@@ -76,20 +85,19 @@ public class WispSpawner : MonoBehaviour
 		private const int spawnCycleDifference = 300;
 		
 		public string Tag { get; private set; }
-		public Vector3 EndLocation { get; set; }
-		public float LastSpawnCycle { get; set; }
 		
 		private bool firstWisp, playSound;
 		private int wispsToSpawn;
-		private float lastSpawn, spawnDelay = 5f;
+		private float lastSpawn, lastSpawnCycle, spawnDelay = 5f;
 		private Vector3 spawnLocation;
+		private Vector3 endLocation;
 		private Quaternion spawnRotation;
 		
 		public WispData(string tag, int x, int z)
 		{
 			Tag = tag;
 			CreateLocation(x, z);
-			LastSpawnCycle = 0f;
+			lastSpawnCycle = 0f;
 			
 			wispsToSpawn = 0;
 		}
@@ -102,21 +110,10 @@ public class WispSpawner : MonoBehaviour
 		/// </returns>
 		public bool CanStartNewSpawnCycle()
 		{
-			if (LastSpawnCycle == 0f) return true;	
-			if (Time.realtimeSinceStartup - LastSpawnCycle > spawnCycleDifference) return true;
+			if (lastSpawnCycle == 0f) return true;	
+			if (Time.realtimeSinceStartup - lastSpawnCycle > spawnCycleDifference) return true;
 			
 			return false;
-		}
-		
-		/// <summary>
-		/// Determines whether a spawning cycle is in progress..
-		/// </summary>
-		/// <returns>
-		/// <c>true</c> if this instance is spawning; otherwise, <c>false</c>.
-		/// </returns>
-		public bool SpawningCycleOngoing()
-		{
-			return wispsToSpawn > 0;
 		}
 		
 		/// <summary>
@@ -129,7 +126,7 @@ public class WispSpawner : MonoBehaviour
 		{
 			spawnLocation.y = Terrain.activeTerrain.SampleHeight(spawnLocation) - 2;
 			
-			LastSpawnCycle = Time.realtimeSinceStartup;
+			lastSpawnCycle = Time.realtimeSinceStartup;
 			
 			firstWisp = true;
 			wispsToSpawn = numberofWisps;
@@ -146,16 +143,18 @@ public class WispSpawner : MonoBehaviour
 		{			
 			if (SpawnWispInCycle())
 			{
+				// Plays the wisp sound.
 				if (playSound)
 				{
 					AudioSource.PlayClipAtPoint((AudioClip) Resources.Load("Wisp/Wisp spawn"), spawnLocation);
 					playSound = false;
 				}
-				
+
+				// Instantiazes the wisp.
 				var w = (GameObject) Instantiate(Resources.Load("Wisp/Wisp"), spawnLocation, spawnRotation);
 				var wisp = w.GetComponent<RandomWispMovement>();
 				
-				wisp.end = EndLocation;
+				wisp.end = endLocation;
 				
 				wispsToSpawn--;
 			}
@@ -165,7 +164,7 @@ public class WispSpawner : MonoBehaviour
 		/// Determines if it is time to spawn a wisp in the current cycle.
 		/// </summary>
 		/// <returns> 
-		/// <c>true</c> if iit is time; otherwise, <c>false</c>.
+		/// <c>true</c> if it is time; otherwise, <c>false</c>.
 		/// </returns>
 		private bool SpawnWispInCycle()
 		{
@@ -187,6 +186,17 @@ public class WispSpawner : MonoBehaviour
 			
 			return false;
 		}
+		
+		/// <summary>
+		/// Determines whether a spawning cycle is in progress..
+		/// </summary>
+		/// <returns>
+		/// <c>true</c> if this instance is spawning; otherwise, <c>false</c>.
+		/// </returns>
+		public bool SpawningCycleOngoing()
+		{
+			return wispsToSpawn > 0;
+		}
 	
 		/// <summary>
 		/// Creates a location with the terrain's height based on the x and z coordinates.
@@ -200,7 +210,7 @@ public class WispSpawner : MonoBehaviour
 			var terrainY = Terrain.activeTerrain.SampleHeight(tempVector) + heightFromTerrain;
 			tempVector.y = terrainY;
 			
-			EndLocation = tempVector;
+			endLocation = tempVector;
 		}
 	}
 }
