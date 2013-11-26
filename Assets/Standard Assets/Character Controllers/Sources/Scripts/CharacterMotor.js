@@ -333,6 +333,11 @@ public function OnTriggerEnter(other : Collider)
         grounded = false;
         movement.gravity = -5f;
     }
+    
+    if (other.gameObject.tag == "TowerCollider")
+    {
+    	this.Respawn();
+    }
 }
  
 public function OnTriggerExit(other : Collider)

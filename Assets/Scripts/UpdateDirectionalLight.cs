@@ -35,11 +35,6 @@ public class UpdateDirectionalLight : MonoBehaviour
 	
 	// Transforms
 	private Transform pTransform;
-
-	// Use this for initialization
-	void Start () {
-	
-	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -78,6 +73,11 @@ public class UpdateDirectionalLight : MonoBehaviour
 		
 		light.transform.eulerAngles = newAngle;
 		light.color = tempColor;
+
+		foreach (GameObject lightObject in GameObject.FindGameObjectsWithTag("PointLights"))
+		{
+			lightObject.light.color = tempColor;
+		}
 		
 		RenderSettings.fogColor = Color.Lerp(RenderSettings.fogColor, fogColor, ChangeSpeed);
 		RenderSettings.skybox.SetColor("_Tint", Color.Lerp(RenderSettings.skybox.GetColor("_Tint"), skyboxColor, ChangeSpeed));
