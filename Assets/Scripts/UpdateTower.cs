@@ -13,14 +13,19 @@ public class UpdateTower : MonoBehaviour {
 	private float towerAngle = 0.0f;
 	private float distanceToTower = 100f;
 	private float change = 0.005f;
-	
+
+	/// <summary>
+	/// Start this instance.
+	/// </summary>
 	void Start()
 	{
 		player = GameObject.Find("Player");
 		gameCamera = GameObject.Find("Main Camera").camera;
 	}
-	
-	// Update is called once per frame
+
+	/// <summary>
+	/// Update this instance (called once per frame).
+	/// </summary>
 	void Update () 
 	{
 		ChangeDistanceToTower();

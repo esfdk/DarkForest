@@ -2,7 +2,10 @@
 using System.Collections;
 
 public class ButtonScript : MonoBehaviour {
-	
+
+	private Color32 normalColor = Color.white;
+	private Color32 hoverColor = Color.gray;
+
 	private Vector3 StartRotation = new Vector3(0, 0, 0);
 	private Vector3 ControlsRotation = new Vector3(0, 90, 0);
 	private Vector3 CreditsRotation = new Vector3(0, 270, 0);
@@ -10,7 +13,38 @@ public class ButtonScript : MonoBehaviour {
 	private float speed = 0.5f * 15;
 	
 	private Hashtable rotateParams;
-	
+
+	/// <summary>
+	/// Start this instance.
+	/// </summary>
+	void Start()
+	{
+		// Set the intensity of the menu lights.
+		foreach(GameObject lightObject in GameObject.FindGameObjectsWithTag("MenuLight"))
+		{
+			lightObject.light.intensity = 1f;
+		}
+	}
+
+	/// <summary>
+	/// Raises the mouse enter event.
+	/// </summary>
+	void OnMouseEnter()
+	{
+		renderer.material.color = hoverColor;
+	}
+
+	/// <summary>
+	/// Raises the mouse exit event.
+	/// </summary>
+	void OnMouseExit()
+	{
+		renderer.material.color = normalColor;
+	}
+
+	/// <summary>
+	/// Raises the mouse down event.
+	/// </summary>
 	void OnMouseDown()
 	{
 		switch (this.name)
@@ -40,15 +74,17 @@ public class ButtonScript : MonoBehaviour {
 				break;
 		}
 	}
-	
+
+	/// <summary>
+	/// Starts the game, disabling menu elements and spawning the initial wisp.
+	/// </summary>
 	private void StartGame()
 	{
 		Screen.showCursor = false;
 		GameObject.Find("Menu Camera").camera.enabled = false;
-		
-		var menuLights = GameObject.FindGameObjectsWithTag("MenuLight");
-		
-		foreach(GameObject lightObject in menuLights)
+
+		// Disables the menu lights, text and textures.
+		foreach(GameObject lightObject in GameObject.FindGameObjectsWithTag("MenuLight"))
 		{
 			lightObject.light.enabled = false;
 		}
@@ -57,10 +93,12 @@ public class ButtonScript : MonoBehaviour {
 		{
 			if (menuThing.renderer != null) menuThing.renderer.enabled = false;
 		}
-		
+
+		// Enables the camera and spawns the player.
 		GameObject.Find("Main Camera").camera.enabled = true;
 		GameObject.Find("Player").gameObject.SendMessage("Respawn");
-		
+
+		// Spawns the initial wisp at the player.
 		var player = GameObject.Find("Player").transform;
 		var start = new Vector3(player.position.x, player.position.y, player.position.z + 2);
 		var w = (GameObject) Instantiate(Resources.Load("Wisp/Wisp"), start, player.rotation);
