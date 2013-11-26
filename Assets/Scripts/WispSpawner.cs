@@ -37,6 +37,15 @@ public class WispSpawner : MonoBehaviour
 		WispList.Add(new WispData("ClearingSouth", 625, 445));
 		
 		WispList.Add(new WispData("Statues", 420, 660));
+
+		WispList.Add(new WispData("Field", 218, 493));
+		WispList.Add(new WispData("PlusClearing", 436, 147));
+		WispList.Add(new WispData("StarClearing", 970, 674));
+		WispList.Add(new WispData("StoneHenge", 1060, 753));
+
+		WispList.Add(new WispData("BaronCastle", 854, 366));
+		WispList.Add(new WispData("Amphitheater", 859, 964));
+
 	}
 
 	/// <summary>
