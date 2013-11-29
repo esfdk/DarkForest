@@ -9,7 +9,7 @@ public class UpdateTower : MonoBehaviour {
 	
 	private bool locked = false;
 	
-	private float distanceToMid = 625f;
+	private float distanceToMid = 610f;
 	private float towerAngle = 0.0f;
 	private float distanceToTower = 100f;
 	private float change = 0.005f;
@@ -30,26 +30,6 @@ public class UpdateTower : MonoBehaviour {
 	{
 		ChangeDistanceToTower();
 		MoveTower();
-		//CheckForPlayerCollision();
-	}
-	
-	/// <summary>
-	/// Checks if the player is colliding with the tower.
-	/// Respawns the player if true.
-	/// </summary>
-	private void CheckForPlayerCollision()
-	{
-		// Determine the distance to the player.
-		var tPos = this.transform.position;
-		var xDist = player.transform.position.x - tPos.x;
-		var zDist = player.transform.position.z - tPos.z;
-		var tDist = Mathf.Sqrt(Mathf.Pow(xDist, 2f) + 0f + Mathf.Pow(zDist, 2f));
-		
-		// If the player is close enough to the tower, respawn the player.
-		if (tDist <= 10f)
-		{
-			player.SendMessage("Respawn");
-		}
 	}
 	
 	/// <summary>
