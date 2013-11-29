@@ -65,8 +65,11 @@ public class UpdateTower : MonoBehaviour {
 		// Convert tower position to viewport points.
 		var towerViewportPoint = gameCamera.WorldToViewportPoint(new Vector3(towerTransform.position.x, player.transform.position.y, towerTransform.position.z));
 
+		var lookAngle = gameCamera.transform.eulerAngles.x > 180 ? -360 : 0;
+		var angleChange = 0.15f * (Mathf.Abs(lookAngle + gameCamera.transform.eulerAngles.x) / 5f);
+
 		// If tower is outside the camera on the right
-		if (towerViewportPoint.x >= 1f)
+		if (towerViewportPoint.x >= 1.2f + angleChange)
 		{ 
 			// Calculate the world points that correspond to the edge of the camera
 			var tempVector = gameCamera.ViewportToWorldPoint(new Vector3(towerViewportPoint.x - change, towerViewportPoint.y, towerViewportPoint.z));
@@ -77,7 +80,7 @@ public class UpdateTower : MonoBehaviour {
 			towerAngle = newAngle;
 		}
 		// If tower is outside the camera on the left
-		else if ((towerViewportPoint.x <= 0f || towerViewportPoint.z < 0f))
+		else if ((towerViewportPoint.x <= -0.2f - angleChange || towerViewportPoint.z < 0f))
 		{
 			// Calculate the world points that correspond to the edge of the camera
 			var tempVector = gameCamera.ViewportToWorldPoint(new Vector3(towerViewportPoint.x + change, towerViewportPoint.y, Mathf.Abs(towerViewportPoint.z)));
