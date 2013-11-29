@@ -175,18 +175,15 @@ private var tr : Transform;
 
 private var controller : CharacterController;
 
-private var spawnPoint : Vector3;
-private var spawnRotation : Vector3;
-
 function Awake () {
 	controller = GetComponent (CharacterController);
 	tr = transform;
-	
-	spawnPoint = this.transform.position;
-	spawnRotation = this.transform.rotation.eulerAngles;
 }
 
 private function UpdateFunction () {
+
+	if (!controller.enabled) return;
+	
 	// We copy the actual velocity into a temporary variable that we can manipulate.
 	var velocity : Vector3 = movement.velocity;
 	
@@ -319,12 +316,6 @@ private function UpdateFunction () {
     }
 }
 
-public function Respawn()
-{
-	this.transform.position = spawnPoint;
-	this.transform.rotation.eulerAngles = spawnRotation;
-}
-
 public function OnTriggerEnter(other : Collider)
 {
 	// VERY basic swimming
@@ -332,11 +323,6 @@ public function OnTriggerEnter(other : Collider)
     {
         grounded = false;
         movement.gravity = -5f;
-    }
-    
-    if (other.gameObject.tag == "TowerCollider")
-    {
-    	this.Respawn();
     }
 }
  
