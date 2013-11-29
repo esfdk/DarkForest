@@ -37,7 +37,7 @@ TagManager:
   - NorthEastTerrain
   - NorthWestTerrain
   - NorthTerrain
-  - SouthTerrains
+  - SouthTerrain
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
