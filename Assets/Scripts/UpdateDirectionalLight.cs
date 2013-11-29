@@ -27,11 +27,11 @@ public class UpdateDirectionalLight : MonoBehaviour
 	
 	// Fog colors
 	private Color32 FogBlack = new Color32 (5, 5, 5, 255);
-	private Color32 FogBlue = new Color32 (80, 80, 140, 255);
-	private Color32 FogPurple = new Color32 (140, 0, 140, 255);
+	private Color32 FogBlue = new Color32 (25, 25, 46, 255);
+	private Color32 FogPurple = new Color32 (120, 0, 120, 255);
 	private Color32 FogRed = new Color32 (140, 80, 80, 255);
-	private Color32 FogYellow = new Color32 (125, 125, 0, 255);
-	private Color32 FogGreen = new Color32 (130, 150, 130, 255);
+	private Color32 FogYellow = new Color32 (100, 100, 0, 255);
+	private Color32 FogGreen = new Color32 (100, 100, 80, 255);
 	
 	// Transforms
 	private Transform pTransform;
@@ -45,12 +45,12 @@ public class UpdateDirectionalLight : MonoBehaviour
 		var zDist = pPos.z - midLocation.z;
 		var tDist = Mathf.Sqrt(Mathf.Pow(xDist, 2f) + 0 + Mathf.Pow(zDist, 2f));
 		
-		if (tDist < 15) 		{ ChangeLight(0.3f, LightBlack, SkyboxBlack, FogBlack); }
-		else if (tDist < 125) 	{ ChangeLight(0.4f, LightBlue, SkyboxBlue, FogBlue); }
-		else if (tDist < 250) 	{ ChangeLight(0.5f, LightPurple, SkyboxPurple, FogPurple); }
-		else if (tDist < 375) 	{ ChangeLight(0.6f, LightRed, SkyboxRed, FogRed); }
-		else if (tDist < 500) 	{ ChangeLight(0.7f, LightYellow, SkyboxYellow, FogYellow); }
-		else if (tDist < 625) 	{ ChangeLight(0.8f, LightGreen, SkyboxGreen, FogGreen); }
+		if (tDist < 15) 		{ ChangeLight(0.2f, LightBlack, SkyboxBlack, FogBlack); }
+		else if (tDist < 125) 	{ ChangeLight(0.25f, LightBlue, SkyboxBlue, FogBlue); }
+		else if (tDist < 250) 	{ ChangeLight(0.25f, LightPurple, SkyboxPurple, FogPurple); }
+		else if (tDist < 375) 	{ ChangeLight(0.3f, LightRed, SkyboxRed, FogRed); }
+		else if (tDist < 500) 	{ ChangeLight(0.35f, LightYellow, SkyboxYellow, FogYellow); }
+		else if (tDist < 625) 	{ ChangeLight(0.4f, LightGreen, SkyboxGreen, FogGreen); }
 	}
 	
 	/// <summary>
