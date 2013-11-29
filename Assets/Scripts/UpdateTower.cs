@@ -115,8 +115,6 @@ public class UpdateTower : MonoBehaviour {
 		var tDist = Mathf.Sqrt(Mathf.Pow(xDist, 2f) + 0f + Mathf.Pow(zDist, 2f));
 		
 		var newDistance = distanceToMid - tDist;
-
-		Debug.Log(locked);
 		
 		// Change distanceToTower if the player is approaching the edge of the map.
 		if (newDistance < 100)
