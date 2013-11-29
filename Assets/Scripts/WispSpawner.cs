@@ -75,7 +75,7 @@ public class WispSpawner : MonoBehaviour
 		{
 			if (tempWisp.CanStartNewSpawnCycle())
 			{				
-				var tempPosition = new Vector3(player.position.x, player.position.y, player.position.z);
+				var tempPosition = new Vector3(player.position.x, player.position.y, player.position.z) + player.forward * 10;
 				var tempRotation = new Quaternion(player.rotation.x, player.rotation.y, player.rotation.z, player.rotation.w);
 				
 				var spawnPosition = tempPosition;
