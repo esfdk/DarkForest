@@ -9,6 +9,7 @@ Material:
   m_Name: StarryNight Skybox
   m_Shader: {fileID: 104, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: []
+  m_CustomRenderQueue: -1
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
@@ -70,7 +71,7 @@ Material:
       data:
         first:
           name: _Tint
-        second: {r: .431374043, g: .431374043, b: .431374043, a: .99999702}
+        second: {r: .470586747, g: .470586747, b: .549016654, a: .99999702}
 --- !u!1002 &2100001
 EditorExtensionImpl:
   serializedVersion: 6
