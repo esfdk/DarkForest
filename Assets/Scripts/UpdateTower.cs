@@ -80,7 +80,7 @@ public class UpdateTower : MonoBehaviour {
 			newTowerPosition.z = newZ;
 		}
 		
-		var test = Terrain.activeTerrain.SampleHeight(newTowerPosition) - 1f;
+		var test = Terrain.activeTerrains[1].SampleHeight(newTowerPosition) - 1f;
 		newTowerPosition.y = test;
 
 		towerTransform.position = newTowerPosition;

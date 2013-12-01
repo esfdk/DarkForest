@@ -19,7 +19,7 @@ public class RandomWispMovement : MonoBehaviour {
 	void Start () 
 	{		
 		var tempStart = transform.position;
-		tempStart.y = Terrain.activeTerrain.SampleHeight(tempStart) + 1f;
+		tempStart.y = Terrain.activeTerrains[1].SampleHeight(tempStart) + 1f;
 		start = tempStart;
 		
 		var dist = Vector3.Distance(start, end);
@@ -73,7 +73,7 @@ public class RandomWispMovement : MonoBehaviour {
 			{
 				// Add a new end point to the wisp's path
 				var tempEnd = end;
-				tempEnd.y = Terrain.activeTerrain.SampleHeight(tempEnd) - 2;
+				tempEnd.y = Terrain.activeTerrains[1].SampleHeight(tempEnd) - 2;
 				
 				var dist = Vector3.Distance(end, tempEnd);
 				
@@ -121,7 +121,7 @@ public class RandomWispMovement : MonoBehaviour {
 		
 		var newVector = new Vector3(newX, newY, newZ);
 		
-		var ty = Terrain.activeTerrain.SampleHeight(newVector);
+		var ty = Terrain.activeTerrains[1].SampleHeight(newVector);
 		
 		if(newVector.y < ty)
 		{

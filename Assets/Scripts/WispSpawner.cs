@@ -216,7 +216,7 @@ public class WispSpawner : MonoBehaviour
 		private void CreateLocation(int x, int z)
 		{
 			var tempVector = new Vector3(x, 0, z);
-			var terrainY = Terrain.activeTerrain.SampleHeight(tempVector) + heightFromTerrain;
+			var terrainY = Terrain.activeTerrains[1].SampleHeight(tempVector) + heightFromTerrain;
 			tempVector.y = terrainY;
 			
 			endLocation = tempVector;
