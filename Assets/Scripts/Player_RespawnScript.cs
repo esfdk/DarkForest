@@ -14,7 +14,7 @@ public class Player_RespawnScript : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		spawnPoint = this.transform.position;
+		spawnPoint = new Vector3(619, 1, 610);
 		spawnRotation = this.transform.eulerAngles;
 
 		lastSpawn = Time.realtimeSinceStartup;

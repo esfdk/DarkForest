@@ -45,6 +45,7 @@ public class WispSpawner : MonoBehaviour
 
 		WispList.Add(new WispData("BaronCastle", 854, 366));
 		WispList.Add(new WispData("Amphitheater", 859, 964));
+		WispList.Add(new WispData("Tree", 873, 809));
 
 	}
 

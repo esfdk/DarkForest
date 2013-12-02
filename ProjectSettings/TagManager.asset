@@ -38,6 +38,7 @@ TagManager:
   - NorthWestTerrain
   - NorthTerrain
   - SouthTerrain
+  - UniqueTree
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
