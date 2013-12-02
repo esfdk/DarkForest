@@ -46,7 +46,7 @@ public class UpdateTower : MonoBehaviour {
 		var towerViewportPoint = gameCamera.WorldToViewportPoint(new Vector3(towerTransform.position.x, player.transform.position.y, towerTransform.position.z));
 
 		var lookAngle = gameCamera.transform.eulerAngles.x > 180 ? -360 : 0;
-		var angleChange = 0.15f * (Mathf.Abs(lookAngle + gameCamera.transform.eulerAngles.x) / 5f);
+		var angleChange = 0f; //0.15f * (Mathf.Abs(lookAngle + gameCamera.transform.eulerAngles.x) / 5f);
 
 		// If tower is outside the camera on the right
 		if (towerViewportPoint.x >= 1.2f + angleChange)
