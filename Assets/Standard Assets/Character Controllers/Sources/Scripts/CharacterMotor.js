@@ -312,7 +312,12 @@ private function UpdateFunction () {
 	
     if(Input.GetKeyDown(KeyCode.Escape))
     {
-    	Application.Quit();
+		Screen.showCursor = true;
+		
+		GameObject.Find("Main Camera").camera.enabled = false;
+		GameObject.Find("Menu Camera").camera.enabled = true;
+		
+		GameObject.Find("Menu").SendMessage("TakeControl");
     }
 }
 

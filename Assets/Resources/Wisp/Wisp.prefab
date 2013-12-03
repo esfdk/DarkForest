@@ -14,7 +14,7 @@ GameObject:
   - 82: {fileID: 8200000}
   m_Layer: 0
   m_Name: Wisp
-  m_TagString: Untagged
+  m_TagString: Wisps_Alive
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -78,6 +78,9 @@ Renderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortingLayerID: 0
 --- !u!33 &3300000
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -191,8 +194,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1.5
   end: {x: 0, y: 0, z: 0}
-  pauseProbability: 25
-  pauseLength: 1
 --- !u!122 &12200000
 Halo:
   m_ObjectHideFlags: 1
