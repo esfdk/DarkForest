@@ -449,7 +449,7 @@ GameObject:
   - 23: {fileID: 2300040}
   - 102: {fileID: 10200030}
   m_Layer: 0
-  m_Name: Control_Explore
+  m_Name: Control_LookAround
   m_TagString: MenuObjects
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -871,7 +871,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100026}
   m_LocalRotation: {x: -.5, y: .5, z: -.5, w: -.5}
-  m_LocalPosition: {x: 15.0999756, y: .796588421, z: .455932617}
+  m_LocalPosition: {x: 15.0999756, y: .752944946, z: .390380859}
   m_LocalScale: {x: 1.35000193, y: 1, z: .368067145}
   m_Children: []
   m_Father: {fileID: 400056}
@@ -1126,7 +1126,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100068}
   m_LocalRotation: {x: .707106829, y: -3.09086232e-08, z: .707106829, w: -3.09086232e-08}
-  m_LocalPosition: {x: 15.1000004, y: 0, z: 0}
+  m_LocalPosition: {x: 15.7542725, y: 0, z: 0}
   m_LocalScale: {x: 17, y: 9.56000042, z: 0}
   m_Children: []
   m_Father: {fileID: 400056}
@@ -2435,7 +2435,7 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100050}
-  m_Text: Explore
+  m_Text: Look around
   m_OffsetZ: 0
   m_CharacterSize: .100000001
   m_LineSpacing: 1

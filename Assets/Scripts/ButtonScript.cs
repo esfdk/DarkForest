@@ -100,7 +100,7 @@ public class ButtonScript : MonoBehaviour {
 
 		// Enables the camera and spawns the player.
 		GameObject.Find("Main Camera").camera.enabled = true;
-		GameObject.Find("Player").gameObject.SendMessage("Respawn");
+		GameObject.Find("Player").gameObject.SendMessage("MoveToStart");
 
 		// Spawns the initial wisp at the player.
 		var player = GameObject.Find("Player").transform;
