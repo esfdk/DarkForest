@@ -93,8 +93,8 @@ public class UpdateTower : MonoBehaviour {
 	{
 		// Get player distance from the middle of the map.
 		var pPos = player.transform.position;
-		var xDist = pPos.x - distanceToMid;
-		var zDist = pPos.z - distanceToMid;
+		var xDist = pPos.x - 625;
+		var zDist = pPos.z - 625;
 		var tDist = Mathf.Sqrt(Mathf.Pow(xDist, 2f) + 0f + Mathf.Pow(zDist, 2f));
 		
 		var newDistance = distanceToMid - tDist;
