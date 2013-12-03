@@ -72,6 +72,10 @@ public class ButtonScript : MonoBehaviour {
 			case "Credits_BackBT":
 				RotateCamera(StartRotation);
 				break;
+				
+			case "Welcome_StartBT":
+				RotateCamera(StartRotation);
+				break;
 		}
 	}
 
