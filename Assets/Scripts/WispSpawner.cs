@@ -46,7 +46,6 @@ public class WispSpawner : MonoBehaviour
 		WispList.Add(new WispData("BaronCastle", 854, 366));
 		WispList.Add(new WispData("Amphitheater", 859, 964));
 		WispList.Add(new WispData("Tree", 873, 809));
-
 	}
 
 	/// <summary>
@@ -134,7 +133,7 @@ public class WispSpawner : MonoBehaviour
 		/// <param name='newSpawnRotation'> The spawn rotation. </param>
 		public void StartSpawning(int numberofWisps, Vector3 newSpawnLocation, Quaternion newSpawnRotation)
 		{
-			spawnLocation.y = Terrain.activeTerrain.SampleHeight(spawnLocation) - 2;
+			spawnLocation.y = Terrain.activeTerrains[8].SampleHeight(spawnLocation) - 2;
 			
 			lastSpawnCycle = Time.realtimeSinceStartup;
 			
@@ -217,7 +216,7 @@ public class WispSpawner : MonoBehaviour
 		private void CreateLocation(int x, int z)
 		{
 			var tempVector = new Vector3(x, 0, z);
-			var terrainY = Terrain.activeTerrains[1].SampleHeight(tempVector) + heightFromTerrain;
+			var terrainY = Terrain.activeTerrains[8].SampleHeight(tempVector) + heightFromTerrain;
 			tempVector.y = terrainY;
 			
 			endLocation = tempVector;
