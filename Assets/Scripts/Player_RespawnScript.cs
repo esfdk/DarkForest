@@ -15,6 +15,7 @@ public class Player_RespawnScript : MonoBehaviour
 	void Start () 
 	{
 		spawnPoint = this.transform.position;
+//		spawnPoint = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
 //		spawnPoint = new Vector3(619, 1, 610);
 		spawnRotation = this.transform.eulerAngles;
 
@@ -52,12 +53,19 @@ public class Player_RespawnScript : MonoBehaviour
 	
 	public void Respawn()
 	{
+		this.GetComponent<CharacterController>().enabled = false;
+		this.GetComponent<MouseLook>().enabled = false;
+		this.transform.FindChild("Main Camera").gameObject.GetComponent<MouseLook>().enabled = false;
+
 		this.transform.position = spawnPoint;
 		this.transform.Rotate(spawnRotation.x - transform.eulerAngles.x, 
 		                      spawnRotation.y - transform.eulerAngles.y, 
 		                      spawnRotation.z - transform.eulerAngles.z);
-
 		lastSpawn = Time.realtimeSinceStartup;
+
+		this.GetComponent<CharacterController>().enabled = true;
+		this.GetComponent<MouseLook>().enabled = true;
+		this.transform.FindChild("Main Camera").gameObject.GetComponent<MouseLook>().enabled = true;
 	}
 	
 	public void OnTriggerEnter(Collider other)

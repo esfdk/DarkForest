@@ -92,7 +92,7 @@ public class WispSpawner : MonoBehaviour
 	/// </summary>
 	private class WispData
 	{
-		private const int spawnCycleDifference = 300;
+		private const int spawnCycleDifference = 120;
 		
 		public string Tag { get; private set; }
 		

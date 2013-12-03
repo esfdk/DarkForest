@@ -52,7 +52,7 @@ public class RandomWispMovement : MonoBehaviour {
 		
 		// Create the params used by iTween.
 		moveParams.Add(iT.MoveTo.path, travelPoints.ToArray());
-		moveParams.Add(iT.MoveTo.time, dist / 1.5);
+		moveParams.Add(iT.MoveTo.time, dist / 1.75);
 		moveParams.Add(iT.MoveTo.easetype, "linear");
 		moveParams.Add(iT.MoveTo.oncomplete, "EndHasBeenReached");
 		
