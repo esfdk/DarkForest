@@ -50,7 +50,7 @@ public class UpdateDirectionalLight : MonoBehaviour
 		else if (tDist < 250) 	{ ChangeLight(0.25f, LightPurple, SkyboxPurple, FogPurple); }
 		else if (tDist < 375) 	{ ChangeLight(0.275f, LightRed, SkyboxRed, FogRed); }
 		else if (tDist < 500) 	{ ChangeLight(0.3f, LightYellow, SkyboxYellow, FogYellow); }
-		else if (tDist < 625) 	{ ChangeLight(0.325f, LightGreen, SkyboxGreen, FogGreen); }
+//		else if (tDist < 625) 	{ ChangeLight(0.325f, LightGreen, SkyboxGreen, FogGreen); }
 	}
 	
 	/// <summary>

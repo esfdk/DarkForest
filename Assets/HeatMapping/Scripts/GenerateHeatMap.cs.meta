@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: f92d8180342f80d45aa6416eecd25f1d
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - HeatMarker: {fileID: 100000, guid: fb4b3cd1c99fc94499a6d3891ef08eab, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
