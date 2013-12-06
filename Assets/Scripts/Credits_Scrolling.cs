@@ -16,7 +16,7 @@ public class Credits_Scrolling : MonoBehaviour {
 	void Start () 
 	{
 		menuCamera = GameObject.Find("Menu Camera").camera;
-		lowestCreditsTransform = GameObject.Find("Name_Jacob").transform;
+		lowestCreditsTransform = GameObject.Find("Name_AssetsNatureVolume").transform;
 		
 		initialPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 
