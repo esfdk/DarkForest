@@ -5,7 +5,7 @@ public class Credits_Scrolling : MonoBehaviour {
 	
 	private string lowestCredits;
 	private bool scrolling;
-	private float speed = 2f;
+	private float speed = 1.7f;
 	private Vector3 initialPosition;
 	private Camera menuCamera;
 	private Transform lowestCreditsTransform;

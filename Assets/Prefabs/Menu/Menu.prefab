@@ -3512,7 +3512,7 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
-  m_Text: Unity Asset
+  m_Text: Unity Assets
   m_OffsetZ: 0
   m_CharacterSize: .100000001
   m_LineSpacing: 1
