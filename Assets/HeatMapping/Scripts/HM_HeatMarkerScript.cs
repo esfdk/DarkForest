@@ -19,8 +19,6 @@ public class HM_HeatMarkerScript : MonoBehaviour {
 		foreach(var hm in GameObject.FindGameObjectsWithTag("HeatMarker"))
 		{
 			var distance = Vector3.Distance(hm.transform.position, this.transform.position);
-//			var offset = hm.transform.position - this.transform.position;
-//			var distance = offset.sqrMagnitude;
 			if(distance <= allowedDistance && !hm.Equals(this))	Density++;
 		}
 

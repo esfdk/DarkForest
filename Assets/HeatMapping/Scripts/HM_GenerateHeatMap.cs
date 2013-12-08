@@ -22,7 +22,9 @@ public class HM_GenerateHeatMap : MonoBehaviour
 	/// </summary>
 	public float AllowedDistance;
 
-	// Highest density in the heatmap
+	/// <summary>
+	/// Highest density in the heatmap
+	/// </summary>
 	private float highestDensity;
 
 	// Colours used for the different heat states
@@ -138,7 +140,6 @@ public class HM_GenerateHeatMap : MonoBehaviour
 	/// </summary>
 	public void SetColors()
 	{
-
 		foreach(var hm in GameObject.FindGameObjectsWithTag("HeatMarker"))
 		{
 			var hms = hm.GetComponent<HM_HeatMarkerScript>();
@@ -147,6 +148,11 @@ public class HM_GenerateHeatMap : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Calculates the correct colour based on the density percentage.
+	/// </summary>
+	/// <returns>The slerped color.</returns>
+	/// <param name="densityPercent">Density percent.</param>
 	private Color SlerpedColor(float densityPercent)
 	{
 		Color newColor;
